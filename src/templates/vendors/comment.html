@@ -1,0 +1,177 @@
+{#{% extends "base-back.html" %}#}
+{#{% load static %}#}
+{#{% block content %}#}
+{#    <main class="main-wrap">#}
+{#        <section class="content-main">#}
+{#              <h2 style="color: #0229a1">نظرات مربوط به محصولات فروشگاه شما</h2><br><br>#}
+{#      <style>#}
+{#        table {#}
+{#            width: 100%;#}
+{#            border-collapse: collapse;#}
+{#        }#}
+{##}
+{#        th, td {#}
+{#            padding: 8px;#}
+{#            text-align: left;#}
+{#            border: 1px solid #ddd;#}
+{#        }#}
+{##}
+{#        th {#}
+{#            background-color: #f2f2f2;#}
+{#        }#}
+{##}
+{#        th.user-column {#}
+{#            width: 20%;  /* Adjust width as needed */#}
+{#        }#}
+{##}
+{#        th.text-column {#}
+{#            width: 50%;  /* Adjust width as needed */#}
+{#        }#}
+{##}
+{#        th.status-column {#}
+{#            width: 15%;  /* Adjust width as needed */#}
+{#        }#}
+{##}
+{#        th.actions-column {#}
+{#            width: 15%;  /* Adjust width as needed */#}
+{#        }#}
+{#    </style>#}
+{##}
+{#    <table>#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th class="user-column">{{ _("User") }}</th>#}
+{#                <th class="text-column">{{ _("Comment Text") }}</th>#}
+{#                <th class="status-column">{{ _("Status") }}</th>#}
+{#                <th class="actions-column">{{ _("Actions") }}</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#            {% for comment in comments %}#}
+{#                <tr>#}
+{#                    <td>{{ comment.user }}</td>#}
+{#                    <td>{{ comment.text }}</td>#}
+{#                    <td>{{ comment.status }}</td>#}
+{#                    <td>#}
+{#                        <form method="post" action="">#}
+{#                            {% csrf_token %}#}
+{#                            <input type="hidden" name="comment_id" value="{{ comment.id }}">#}
+{#                            <select name="status">#}
+{#                                {% for key, value in comment.COMMENT_STATUS_CHOICES %}#}
+{#                                    <option value="{{ key }}" {% if comment.status == key %}selected{% endif %}>#}
+{#                                        {{ value }}#}
+{#                                    </option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                            <button type="submit">{{ _("Save") }}</button>#}
+{#                        </form>#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{##}
+{#    {% if is_paginated %}#}
+{#        <div class="pagination">#}
+{#            <span class="step-links">#}
+{#                {% if page_obj.has_previous %}#}
+{#                    <a href="?page=1">&laquo; first</a>#}
+{#                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#                {% endif %}#}
+{##}
+{#                <span class="current">#}
+{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#                </span>#}
+{##}
+{#                {% if page_obj.has_next %}#}
+{#                    <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#                {% endif %}#}
+{#            </span>#}
+{#        </div>#}
+{#    {% endif %}#}
+{#        </section>#}
+{#    </main>#}
+{#{% endblock %}#}
+
+
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-wrap">
+        <section class="content-main">
+            <h2 style="color: #0229a1">نظرات مربوط به محصولات فروشگاه شما</h2><br><br>
+            <div class="table-responsive">
+                <table class="table shopping-summery text-center clean">
+                    <thead>
+                    <tr class="main-heading">
+                        <th scope="col"><h4 style="color: #13653f">محصول</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">کاربر</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">نظر</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">تاریخ</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">وضعیت</h4></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                        <td class="product-name">
+                            <p class="font-xs">{{ comment.ShopProduct.product.name }}</p>
+                        </td>
+                        <td class="product-des">
+                            <p class="font-xs">{{ comment.user }}</p>
+                        </td>
+                        <td class="price" data-title="قیمت"><p class="font-xs">{{ comment.text }}</p></td>
+                        <td class="text-center" data-title="شناسه محصول">
+                            <p class="font-xs">{{ comment.persian_create_at }}</p>
+                        </td>
+                        {% if perms.vendors.is_manager %}
+                        <td class="text-right" data-title="کارت">
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                    <select name="status">
+                                        {% for key, value in comment.COMMENT_STATUS_CHOICES %}
+                                            <option value="{{ key }}" {% if comment.status == key %}selected{% endif %}>
+                                                {{ value }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" style="color: #a91414" class="btn">تأیید</button>
+                                </form>
+                                </td>
+                            {% else %}
+                                <td class="text-right" data-title="کارت">
+                                    <p class="font-xs" style="">{{ comment.status }}</p>
+                                </td>
+
+                            {% endif %}
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+                <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+{% endblock %}
+

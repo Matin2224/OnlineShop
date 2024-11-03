@@ -1,0 +1,128 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-wrap">
+        <section class="content-main">
+            <div class="product-detail-container">
+    <style>
+        .product-detail-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .product-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            margin-bottom: 20px;
+        }
+
+        .product-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .product-discount {
+            font-size: 18px;
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+
+        .product-stock {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-rating {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-discount-type {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-rating span {
+            color: gold;
+        }
+
+        .product-description {
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+
+    <!-- Product Image -->
+    <div class="product-image">
+        {% if shop_product.product.get_image_url %}
+            <img src="{{ shop_product.product.get_image_url }}" alt="{{ shop_product.product.name }}">
+
+        {% endif %}
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+        <h2>{{ shop_product.product.name }}</h2>
+
+        <!-- Product Price -->
+        <div class="product-price">
+            قیمت: {{ shop_product.price }} تومان
+        </div>
+
+        <!-- Product Discount -->
+        {% if shop_product.discount %}
+        <div class="product-discount">
+            تخفیف: {{ shop_product.discount }}%
+        </div>
+
+        <!-- Type of Discount -->
+        <div class="product-discount-type">
+            نوع تخفیف: {{shop_product.discount_type }}
+        </div>
+        {% endif %}
+
+        <!-- Product Stock -->
+        <div class="product-stock">
+            موجودی: {{ shop_product.stock }} عدد
+        </div>
+
+        <!-- Product Rating -->
+        <div class="product-rating">
+            امتیاز:
+            {% for i in product.average_rating|floatformat:0 %}
+                <span>&#9733;</span>
+            {% endfor %}
+            ({{ shop_product.product.average_rating }})
+        </div>
+    </div>
+
+
+</div>
+
+        </section>
+    </main>
+{% endblock %}
+
+

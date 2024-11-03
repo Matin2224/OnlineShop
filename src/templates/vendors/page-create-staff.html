@@ -1,0 +1,134 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main>
+        <section class="content-main mt-80 mb-80">
+            <div class="card mx-auto card-login">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">افزودن کارمند</h4>
+                    <form method="post" action="{% url 'vendors:create_staff' %}">
+                        {% csrf_token %}
+
+                        <!-- Staff Information -->
+                        <div class="mb-3">
+                            <label class="form-label">نام</label>
+                            <input class="form-control" type="text" required="" name="first_name"
+                                   value="{{ form.first_name.value|default:'' }}" placeholder="نام">
+                            {{ form.first_name.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">نام خانوادگی</label>
+                            <input class="form-control" type="text" required="" name="last_name"
+                                   value="{{ form.last_name.value|default:'' }}" placeholder="نام خانوادگی">
+                            {{ form.last_name.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">پست الکترونیک</label>
+                            <input class="form-control" type="email" required="" name="email"
+                                   value="{{ form.email.value|default:'' }}" placeholder="ایمیل شما">
+                            {{ form.email.errors }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">تلفن</label>
+
+                            <input class="form-control" type="text" required="" name="phone"
+                                   value="{{ form.phone.value|default:'' }}"
+                                   placeholder="شماره تلفن همراه">
+                            {{ form.phone.errors }}
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">رمز عبور ایجاد کنید</label>
+                            <input class="form-control" required="" type="password" name="password1"
+                                   placeholder="پسورد">
+                            {{ form.password1.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">تأیید رمز عبور</label>
+                            <input class="form-control" required="" type="password" name="password2"
+                                   placeholder="تأیید پسورد">
+                            {{ form.password2.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">نوع کارمند</label>
+                            {{ form.type.errors }}<br>
+                            {{ form.type }}
+                        </div>
+
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-primary w-100">ارسال , ثبت نام</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
+
+
+
+{#{% extends "base.html" %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#<section class="content-main mt-80 mb-80">#}
+{#    <div class="card mx-auto card-login">#}
+{#        <div class="card-body">#}
+{#            <h4 class="card-title mb-4">ایجاد حساب کاربری جدید</h4>#}
+{#            <form method="post" action="{% url 'vendors:create_staff' %}">#}
+{#                {% csrf_token %}#}
+{#                {{ form.non_field_errors }}#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">نام</label>#}
+{#                    {{ form.first_name.errors }}#}
+{#                    {{ form.first_name }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">نام خانوادگی</label>#}
+{#                    {{ form.last_name.errors }}#}
+{#                    {{ form.last_name }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">پست الکترونیک</label>#}
+{#                    {{ form.email.errors }}#}
+{#                    {{ form.email }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">تلفن</label>#}
+{#                    {{ form.phone.errors }}#}
+{#                    {{ form.phone }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">رمز عبور</label>#}
+{#                    {{ form.password1.errors }}#}
+{#                    {{ form.password1 }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">تأیید رمز عبور</label>#}
+{#                    {{ form.password2.errors }}#}
+{#                    {{ form.password2 }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-3">#}
+{#                    <label class="form-label">نوع کاربر</label>#}
+{#                    {{ form.type.errors }}#}
+{#                    {{ form.type }}#}
+{#                </div>#}
+{##}
+{#                <div class="mb-4">#}
+{#                    <button type="submit" class="btn btn-primary w-100">ایجاد کاربر</button>#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{#{% endblock %}#}

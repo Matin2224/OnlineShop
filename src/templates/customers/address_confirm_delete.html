@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>حذف آدرس</h2>
+    <br>
+<br><br>
+<br>
+    <p>آیا مطمئن هستید که می‌خواهید این آدرس را حذف کنید؟</p>
+    <br>
+<br>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">بله، حذف کن</button>
+        <a href="{% url 'customers:profile' %}" class="btn btn-secondary">لغو</a>
+    </form>
+<br>
+<br>
+</div>
+{% endblock %}

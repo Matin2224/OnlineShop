@@ -1,0 +1,158 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <body>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <span></span> فروشگاه
+                    <span></span> سفارش شما
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>مدیریت آدرس‌ها</h4>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ address_form.as_p }}
+                            <button type="submit" name="address_form" class="btn btn-primary">افزودن آدرس</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="order_review">
+                            <h4>سفارش شما</h4><br>
+
+                            <div class="table-responsive order_table text-center">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">تولید - محصول</th>
+                                        <th>جمع</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in cart_items %}
+                                        <tr>
+                                            <td class="image product-thumbnail">
+                                                <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                                            </td>
+                                            <td>
+                                                <h5><a href="#">{{ item.name }}</a></h5>
+                                                <span class="product-qty">x {{ item.quantity }}</span>
+                                            </td>
+                                            <td>
+                                                <asd>تومان</asd>
+                                                {{ item.price_after_discount }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <th>جمع</th>
+                                        <td colspan="2" class="product-subtotal">
+                                            <span class="font-xl text-brand fw-900"><asd>تومان</asd>
+                                                {{ order_total }}</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h5>آدرس سفارش </h5><br>
+                                <form id="order-form" method="post">
+                                    {% csrf_token %}
+                                    <select id="address" name="selected_address" class="form-control">
+                                        {% for address in addresses %}
+                                            <option value="{{ address.id }}">
+                                                {{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.zipcode }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <br>
+                                    <button type="button" id="submit-order" class="btn btn-primary">ثبت نهایی سفارش
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    </body>
+    <script>document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('submit-order').addEventListener('click', function () {
+            const addressSelect = document.getElementById('address');
+            const selectedAddress = addressSelect.value;
+
+            if (selectedAddress) {
+                createOrderAndProductOrders()
+                } else {
+            alert('Please select an address.');
+            }
+            ;
+
+            function createOrderAndProductOrders() {
+
+                const cartItems = getCartItems();
+
+                fetch('/cart/api/v1/orders/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+
+                        selected_address: selectedAddress,
+                        shop_products: cartItems.map(item => ({
+                            id: item.id,
+                            quantity: item.quantity
+                        }))
+                    }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.detail || 'An error occurred');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('سفارش شما با موفقیت ثبت شد!');
+                        window.location.href = '{% url 'customers:profile' %}';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert(`خطایی رخ داده است: ${error.message}`);
+                    });
+            }
+
+            function getCartItems() {
+                const cartCookie = getCookie('cartItems');
+                return cartCookie ? JSON.parse(cartCookie) : [];
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+        });
+
+
+    });
+    </script>
+{% endblock %}
+
+
+
+
+
+
+

@@ -1,0 +1,866 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'dashboard:combined-list' %}" rel="nofollow">خانه</a>
+                    <span></span> صفحات
+                    <span></span> اکانت
+                </div>
+            </div>
+        </div>
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                                               href="#dashboard" role="tab" aria-controls="dashboard"
+                                               aria-selected="false">
+                                                <i class="fi-rs-settings-sliders mr-10"></i>تغییر رمزعبور
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders"
+                                               role="tab" aria-controls="orders" aria-selected="false">
+                                                <i class="fi-rs-shopping-bag mr-10"></i>سفارش
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab"
+                                               href="#track-orders" role="tab" aria-controls="track-orders"
+                                               aria-selected="false">
+                                                <i class="fi-rs-shopping-cart-check mr-10"></i>نظرات من
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="rate-tab" data-bs-toggle="tab" href="#rate"
+                                               role="tab" aria-controls="rate" aria-selected="true">
+                                                <i class="fi-rs-star mr-10"></i>ثبت امتیاز
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address"
+                                               role="tab" aria-controls="address" aria-selected="true">
+                                                <i class="fi-rs-marker mr-10"></i>نشانی من
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
+                                               href="#account-detail" role="tab" aria-controls="account-detail"
+                                               aria-selected="true">
+                                                <i class="fi-rs-user mr-10"></i>جزئیات حساب
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'accounts:logout' %}">
+                                                <i class="fi-rs-sign-out mr-10"></i>خروج
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="tab-content dashboard-content">
+                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+                                         aria-labelledby="dashboard-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">تغییر رمزعبور </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="POST" action="{% url 'customers:password_change' %}">
+                                                    {% csrf_token %}
+                                                    {{ form.non_field_errors }}
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <label>رمز عبور فعلی <span class="required">*</span></label>
+                                                            <input type="password" name="old_password"
+                                                                   class="form-control square"
+                                                                   placeholder="رمز عبور فعلی" required>
+                                                            {{ form.old_password.errors }}
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>رمز عبور جدید <span class="required">*</span></label>
+                                                            <input type="password" name="new_password1"
+                                                                   class="form-control square"
+                                                                   placeholder="رمز عبور جدید" required>
+                                                            {{ form.new_password1.errors }}
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>تأیید رمز عبور <span
+                                                                    class="required">*</span></label>
+                                                            <input type="password" name="new_password2"
+                                                                   class="form-control square"
+                                                                   placeholder="تأیید رمز عبور" required>
+                                                            {{ form.new_password2.errors }}
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit">ثبت
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">سفارشات شما</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                {% for order in orders %}
+                                                    <div class="table-responsive order_table text-center">
+                                                        <table class="table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th colspan="2">تولید - محصول</th>
+                                                                <th>جمع</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for item in products_orders %}
+                                                                {% if item.order == order %}
+                                                                    <tr>
+                                                                        <td class="image product-thumbnail">
+                                                                            <img src="{{ item.product.product.get_image_url }}"
+                                                                                 alt="{{ item.product.product.name }}">
+                                                                        </td>
+                                                                        <td>
+                                                                            <h5>
+                                                                                <a href="#">{{ item.product.product.name }}</a>
+                                                                            </h5>
+                                                                            <span class="product-qty">x {{ item.quantity }}</span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <asd>تومان</asd>
+                                                                            {{ item.total_price }}
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                            <tr>
+                                                                <th>تاریخ سفارش</th>
+                                                                <td colspan="2" class="product-subtotal">
+                                            <span class="#" style="color: red">
+                                                {{ order.persian_create_at }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>وضعیت سفارش</th>
+                                                                <td colspan="2" class="product-subtotal">
+                                            <span class="#">
+                                                 {{ order.delivered }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>آدرس سفارش</th>
+                                                                <td colspan="2" class="product-subtotal">
+                                            <span class="#" style="color: #1d288d">
+                                                 {{ order.order_address }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>جمع</th>
+                                                                <td colspan="2" class="product-subtotal">
+                                            <span class="font-xl text-brand fw-900"><asd>تومان</asd>
+                                                {{ order.calculate_payment }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <br><br>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="track-orders" role="tabpanel"
+                                         aria-labelledby="track-orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">نظرات</h5>
+                                            </div>
+                                            <div class="card-body contact-from-area">
+                                                <div class="table-responsive">
+                                                    <table class="table shopping-summery text-center clean">
+                                                        <thead>
+                                                        <tr class="main-heading">
+                                                            <th scope="col"><h4 style="color: #13653f">محصول</h4></th>
+                                                            <th scope="col"><h4 style="color: #13653f">نظر</h4></th>
+                                                            <th scope="col"><h4 style="color: #13653f">تاریخ</h4></th>
+                                                            <th scope="col"><h4 style="color: #13653f">وضعیت</h4></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for comment in comments %}
+                                                            <tr>
+                                                            <td class="product-name">
+                                                                <p class="font-xs">{{ comment.ShopProduct.product.name }}</p>
+                                                            </td>
+
+                                                            <td class="price" data-title="قیمت"><p
+                                                                    class="font-xs">{{ comment.text }}</p></td>
+                                                            <td class="text-center" data-title="شناسه محصول">
+                                                                <p class="font-xs">{{ comment.persian_create_at }}</p>
+                                                            </td>
+                                                            <td class="text-right" data-title="کارت">
+                                                            <p class="font-xs">{{ comment.status }}</p>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                <div class="tab-pane fade" id="rate" role="tabpanel" aria-labelledby="rate-tab">
+    <div class="row">
+        <!-- Column for Rating Shop Products -->
+        <div class="col-lg-6">
+            <div class="card mb-3 mb-lg-0">
+                <div class="card-header">
+                    <h5 class="mb-0">امتیاز به محصولات</h5>
+                </div>
+                <div class="card-body">
+                    {% for i in products_completed %}
+                        <div class="card mb-3 mb-lg-0">
+                            <div class="card-body">
+                                <h5>{{ i.product.product.name }}</h5>
+                                <h5>{{ existing_product_rating }}</h5>
+                                <!-- Product Rating Form -->
+
+                                <form method="post" action="{% url 'dashboard:rate_product' i.product.pk %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="product-rating-{{ i.product.pk }}">امتیاز خود را وارد کنید:</label>
+                                        <div class="star-rating" data-rating="{{ i.product.rating }}">
+                                            <span class="star" data-value="1">&#9733;</span>
+                                            <span class="star" data-value="2">&#9733;</span>
+                                            <span class="star" data-value="3">&#9733;</span>
+                                            <span class="star" data-value="4">&#9733;</span>
+                                            <span class="star" data-value="5">&#9733;</span>
+                                        </div>
+                                        <input type="hidden" name="rating" id="product-rating-{{ i.product.pk }}" class="rating-value" value="0">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">امتیاز به محصول</button>
+                                </form>
+                            </div>
+                        </div>
+                        <br><br>
+                    {% empty %}
+                        <p>محصول خریداری شده‌ای وجود ندارد.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Column for Rating Shops -->
+        <div class="col-lg-6">
+            <div class="card mb-3 mb-lg-0">
+                <div class="card-header">
+                    <h5 class="mb-0">امتیاز به فروشگاه‌ها</h5>
+                </div>
+                <div class="card-body">
+                    {% for shop in shops %}
+                        <div class="card mb-3 mb-lg-0">
+                            <div class="card-body">
+                                <h5>{{ shop.name }}</h5>
+                                <!-- Shop Rating Form -->
+                                <form method="post" action="{% url 'dashboard:rate_shop' shop.pk %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="shop-rating-{{ shop.pk }}">امتیاز خود را وارد کنید:</label>
+                                        <div class="star-rating" data-rating="{{ shop.rating }}">
+                                            <span class="star" data-value="1">&#9733;</span>
+                                            <span class="star" data-value="2">&#9733;</span>
+                                            <span class="star" data-value="3">&#9733;</span>
+                                            <span class="star" data-value="4">&#9733;</span>
+                                            <span class="star" data-value="5">&#9733;</span>
+                                        </div>
+                                        <input type="hidden" name="rating" id="shop-rating-{{ shop.pk }}" class="rating-value" value="0">
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">امتیاز به فروشگاه</button>
+                                </form>
+                            </div>
+                        </div>
+                        <br><br>
+                    {% empty %}
+                        <p>فروشگاه‌های خریداری شده‌ای وجود ندارد.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this JavaScript for interactive star rating -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star-rating .star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const ratingValue = this.dataset.value;
+                const ratingInput = this.parentElement.nextElementSibling;
+                ratingInput.value = ratingValue;
+
+                // Clear previous selection
+                this.parentElement.querySelectorAll('.star').forEach(s => {
+                    s.style.color = 'gray'; // Reset star color
+                });
+
+                // Highlight the selected stars
+                this.parentElement.querySelectorAll('.star').forEach(s => {
+                    if(s.dataset.value <= ratingValue) {
+                        s.style.color = 'gold';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+{# <div class="tab-pane fade" id="rate" role="tabpanel" aria-labelledby="rate-tab">#}
+{#    <div class="row">#}
+{#        <!-- Column for Rating Shop Products -->#}
+{#        <div class="col-lg-6">#}
+{#            <div class="card mb-3 mb-lg-0">#}
+{#                <div class="card-header">#}
+{#                    <h5 class="mb-0">امتیاز به محصولات</h5>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    {% for i in products_completed %}#}
+{#                        <div class="card mb-3 mb-lg-0">#}
+{#                            <div class="card-body">#}
+{#                                <h5>{{ i.product.product.name }}</h5>#}
+{#                                <!-- Product Rating Form -->#}
+{#                                <form method="post" action="{% url 'dashboard:rate_product' i.product.pk %}">#}
+{#                                    {% csrf_token %}#}
+{#                                    <div class="form-group">#}
+{#                                        <label for="product-rating-{{ i.product.pk }}">امتیاز خود را وارد کنید (1-5):</label>#}
+{#<input type="number" name="rating" id="product-rating-{{ i.product.pk }}" class="form-control" min="1" max="5" required>#}
+{#</div>#}
+{#                                    <button type="submit" class="btn btn-primary">امتیاز به محصول</button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <br><br>#}
+{#                    {% empty %}#}
+{#                        <p>محصول خریداری شده‌ای وجود ندارد.</p>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <!-- Column for Rating Shops -->#}
+{#        <div class="col-lg-6">#}
+{#            <div class="card mb-3 mb-lg-0">#}
+{#                <div class="card-header">#}
+{#                    <h5 class="mb-0">امتیاز به فروشگاه‌ها</h5>#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    {% for shop in shops %}#}
+{#                        <div class="card mb-3 mb-lg-0">#}
+{#                            <div class="card-body">#}
+{#                                <h5>{{ shop.name }}</h5>#}
+{#                                <!-- Shop Rating Form -->#}
+{#                                <form method="post" action="{% url 'dashboard:rate_shop' shop.pk %}">#}
+{#                                    {% csrf_token %}#}
+{#                                    <div class="form-group">#}
+{#                                        <label for="shop-rating-{{ shop.pk }}">امتیاز خود را وارد کنید (1-5):</label>#}
+{#                                        {{ shop_form.rating}}#}
+{#                                    </div>#}
+{#                                    <button type="submit" class="btn btn-secondary">امتیاز به فروشگاه</button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <br><br>#}
+{#                    {% empty %}#}
+{#                        <p>فروشگاه‌های خریداری شده‌ای وجود ندارد.</p>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+
+
+{##}
+{#                                    <div class="tab-pane fade" id="rate" role="tabpanel" aria-labelledby="rate-tab">#}
+{#                                        <div class="row">#}
+{#                                            <!-- Column for Rating Shop Products -->#}
+{#                                            <div class="col-lg-6">#}
+{#                                                <div class="card mb-3 mb-lg-0">#}
+{#                                                    <div class="card-header">#}
+{#                                                        <h5 class="mb-0">امتیاز به محصولات</h5>#}
+{#                                                    </div>#}
+{#                                                    <div class="card-body">#}
+{#                                                        {% for i in products_completed %}#}
+{#                                                            <div class="card mb-3 mb-lg-0">#}
+{#                                                                <div class="card-body">#}
+{#                                                                    <h5>{{ i.product.product.name }}</h5>#}
+{#                                                                    <!-- Shop Rating Form -->#}
+{#                                                                    <form method="post"#}
+{#                                                                          action="{% url 'dashboard:rate_product' i.product.pk %}">#}
+{#                                                                        {% csrf_token %}#}
+{#                                                                        {{ form.as_p }}#}
+{#                                                                        <button type="submit" class="btn btn-primary">#}
+{#                                                                            امتیاز به محصول#}
+{#                                                                        </button>#}
+{#                                                                    </form>#}
+{#                                                                </div>#}
+{#                                                            </div>#}
+{#                                                            <br><br>#}
+{#                                                        {% empty %}#}
+{#                                                            <p>محصول خریداری شده‌ای وجود ندارد.</p>#}
+{#                                                        {% endfor %}#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{##}
+{#                                            <!-- Column for Rating Shops -->#}
+{#                                            <div class="col-lg-6">#}
+{#                                                <div class="card mb-3 mb-lg-0">#}
+{#                                                    <div class="card-header">#}
+{#                                                        <h5 class="mb-0">امتیاز به فروشگاه‌ها</h5>#}
+{#                                                    </div>#}
+{#                                                    <div class="card-body">#}
+{#                                                        {% for shop in shops %}#}
+{#                                                            <div class="card mb-3 mb-lg-0">#}
+{#                                                                <div class="card-body">#}
+{#                                                                    <h5>{{ shop.name }}</h5>#}
+{#                                                                    <!-- Shop Rating Form -->#}
+{##}
+{#                                                                        <form method="post"#}
+{#                                                                              action="{% url 'dashboard:rate_shop' shop.pk %}">#}
+{#                                                                            {% csrf_token %}#}
+{#                                                                            {{ form.as_p }}#}
+{#                                                                            <button type="submit"#}
+{#                                                                                    class="btn btn-secondary">امتیاز به#}
+{#                                                                                فروشگاه#}
+{#                                                                            </button>#}
+{#                                                                        </form>#}
+{#                                                                </div>#}
+{#                                                            </div>#}
+{#                                                            <br><br>#}
+{#                                                        {% empty %}#}
+{#                                                            <p>فروشگاه‌های خریداری شده‌ای وجود ندارد.</p>#}
+{#                                                        {% endfor %}#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <!-- Address Management Section -->
+                                    <div class="tab-pane fade" id="address" role="tabpanel"
+                                         aria-labelledby="address-tab">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="card mb-3 mb-lg-0">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-0">آدرس جدید</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form method="POST" action="{% url 'customers:profile' %}">
+                                                            {% csrf_token %}
+                                                            <div class="form-group">
+                                                                <label>خیابان</label>
+                                                                <input name="street" type="text"
+                                                                       class="form-control square">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>شهر</label>
+                                                                <input name="city" type="text"
+                                                                       class="form-control square">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>استان</label>
+                                                                <input name="state" type="text"
+                                                                       class="form-control square">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>کد پستی</label>
+                                                                <input name="zipcode" type="text"
+                                                                       class="form-control square">
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button type="submit" class="btn btn-fill-out submit"
+                                                                        name="address_submit">ثبت آدرس
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="card mb-3 mb-lg-0">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-0">آدرس‌های شما</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <ul class="list-group">
+                                                            {% for address in addresses %}
+                                                                <li class="list-group-item">
+                                                                    {{ address }}<br>
+                                                                    <a href="{% url 'customers:edit_address' address.id %}"
+                                                                       class="btn btn-sm btn-primary">ویرایش</a>
+                                                                    <a href="{% url 'customers:delete_address' address.id %}"
+                                                                       class="btn btn-sm btn-danger">حذف</a>
+                                                                </li>
+                                                            {% empty %}
+                                                                <li class="list-group-item">هیچ آدرسی اضافه نشده است.
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="tab-pane fade" id="account-detail" role="tabpanel"
+                                         aria-labelledby="account-detail-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>جزئیات حساب</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form method="POST" action="{% url 'customers:profile' %}"
+                                                      enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="{{ customer_form.first_name.id_for_label }}">نام
+                                                                <span class="required">*</span></label>
+                                                            <input type="text" name="first_name"
+                                                                   id="{{ customer_form.first_name.id_for_label }}"
+                                                                   class="form-control square"
+                                                                   value="{{ customer_form.first_name.value }}">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="{{ customer_form.last_name.id_for_label }}">نام
+                                                                خانوادگی <span class="required">*</span></label>
+                                                            <input type="text" name="last_name"
+                                                                   id="{{ customer_form.last_name.id_for_label }}"
+                                                                   class="form-control square"
+                                                                   value="{{ customer_form.last_name.value }}">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label for="{{ customer_form.phone.id_for_label }}">شماره
+                                                                تلفن همراه<span class="required">*</span></label>
+                                                            <input type="text" name="phone"
+                                                                   id="{{ customer_form.phone.id_for_label }}"
+                                                                   class="form-control square"
+                                                                   value="{{ customer_form.phone.value }}">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label for="{{ customer_form.email.id_for_label }}">آدرس
+                                                                ایمیل <span class="required">*</span></label>
+                                                            <input type="email" name="email"
+                                                                   id="{{ customer_form.email.id_for_label }}"
+                                                                   class="form-control square"
+                                                                   value="{{ customer_form.email.value }}">
+                                                        </div>
+
+
+                                                        <div class="form-group col-md-12">
+                                                            <label for="{{ profile_form.bio.id_for_label }}">بیوگرافی</label>
+                                                            <textarea name="bio"
+                                                                      id="{{ profile_form.bio.id_for_label }}"
+                                                                      class="form-control square">{{ profile_form.bio.value }}</textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label for="{{ profile_form.profile_image.id_for_label }}">تصویر
+                                                                پروفایل</label>
+                                                            <input type="file" name="profile_image"
+                                                                   id="{{ profile_form.profile_image.id_for_label }}"
+                                                                   class="form-control square">
+                                                            {% if request.user.customer_profile.profile_image %}
+                                                                <img src="{{ request.user.customer_profile.profile_image.url }}"
+                                                                     alt="Profile Image"
+                                                                     style="max-width: 150px; max-height: 150px;">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit">ثبت
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- End of tab content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+
+{#{% extends "base.html" %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#    <main class="main">#}
+{#        <div class="page-header breadcrumb-wrap">#}
+{#            <div class="container">#}
+{#                <div class="breadcrumb">#}
+{#                    <a href="{% url 'dashboard:combined-list' %}" rel="nofollow">خانه</a>#}
+{#                    <span></span> صفحات#}
+{#                    <span></span> اکانت#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <section class="pt-150 pb-150">#}
+{#            <div class="container">#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-10 m-auto">#}
+{#                        <div class="row">#}
+{#                            <div class="col-md-4">#}
+{#                                <div class="dashboard-menu">#}
+{#                                    <ul class="nav flex-column" role="tablist">#}
+{#                                        <li class="nav-item">#}
+{#                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"#}
+{#                                               href="#dashboard" role="tab" aria-controls="dashboard"#}
+{#                                               aria-selected="false">#}
+{#                                                <i class="fi-rs-settings-sliders mr-10"></i>تغییر رمزعبور#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                        <li class="nav-item">#}
+{#                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders"#}
+{#                                               role="tab" aria-controls="orders" aria-selected="false">#}
+{#                                                <i class="fi-rs-shopping-bag mr-10"></i>سفارش#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                        <li class="nav-item">#}
+{#                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab"#}
+{#                                               href="#track-orders" role="tab" aria-controls="track-orders"#}
+{#                                               aria-selected="false">#}
+{#                                                <i class="fi-rs-shopping-cart-check mr-10"></i>سفارشتان را پیگیری کنید#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                        <li class="nav-item">#}
+{#                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address"#}
+{#                                               role="tab" aria-controls="address" aria-selected="true">#}
+{#                                                <i class="fi-rs-marker mr-10"></i>نشانی من#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                        <li class="nav-item">#}
+{#                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"#}
+{#                                               href="#account-detail" role="tab" aria-controls="account-detail"#}
+{#                                               aria-selected="true">#}
+{#                                                <i class="fi-rs-user mr-10"></i>جزئیات حساب#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                        <li class="nav-item">#}
+{#                                            <a class="nav-link" href="{% url 'accounts:logout' %}">#}
+{#                                                <i class="fi-rs-sign-out mr-10"></i>خروج#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-md-8">#}
+{#                                <div class="tab-content dashboard-content">#}
+{#                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel"#}
+{#                                         aria-labelledby="dashboard-tab">#}
+{#                                        <div class="card">#}
+{#                                            <div class="card-header">#}
+{#                                                <h5 class="mb-0">تغییر رمزعبور </h5>#}
+{#                                            </div>#}
+{#                                            <div class="card-body">#}
+{#                                                <form method="POST" action="#">#}
+{#                                                    {% csrf_token %}#}
+{#                                                    <div class="row">#}
+{#                                                        <div class="form-group col-md-12">#}
+{#                                                            <label>رمز عبور فعلی <span class="required">*</span></label>#}
+{#                                                            <input required class="form-control square"#}
+{#                                                                   name="old_password" type="password">#}
+{#                                                        </div>#}
+{#                                                        <div class="form-group col-md-12">#}
+{#                                                            <label>رمز عبور جدید <span class="required">*</span></label>#}
+{#                                                            <input required class="form-control square"#}
+{#                                                                   name="new_password1" type="password">#}
+{#                                                        </div>#}
+{#                                                        <div class="form-group col-md-12">#}
+{#                                                            <label>تأیید رمز عبور <span#}
+{#                                                                    class="required">*</span></label>#}
+{#                                                            <input required class="form-control square"#}
+{#                                                                   name="new_password2" type="password">#}
+{#                                                        </div>#}
+{#                                                        <div class="col-md-12">#}
+{#                                                            <button type="submit" class="btn btn-fill-out submit"#}
+{#                                                                    name="submit" value="Submit">ثبت#}
+{#                                                            </button>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </form>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">#}
+{#                                        <div class="card">#}
+{#                                            <div class="card-header">#}
+{#                                                <h5 class="mb-0">سفارشات شما</h5>#}
+{#                                            </div>#}
+{#                                            <div class="card-body">#}
+{#                                                <!-- Order details here -->#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="tab-pane fade" id="track-orders" role="tabpanel"#}
+{#                                         aria-labelledby="track-orders-tab">#}
+{#                                        <div class="card">#}
+{#                                            <div class="card-header">#}
+{#                                                <h5 class="mb-0">ردیابی سفارشات</h5>#}
+{#                                            </div>#}
+{#                                            <div class="card-body contact-from-area">#}
+{#                                                <!-- Track orders form here -->#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="tab-pane fade" id="address" role="tabpanel"#}
+{#                                         aria-labelledby="address-tab">#}
+{#                                        <div class="row">#}
+{#                                            <div class="col-lg-6">#}
+{#                                                <div class="card mb-3 mb-lg-0">#}
+{#                                                    <div class="card-header">#}
+{#                                                        <h5 class="mb-0">آدرس قبض</h5>#}
+{#                                                    </div>#}
+{#                                                    <div class="card-body">#}
+{#                                                        <form method="POST"#}
+{#                                                              action="#">#}
+{#                                                            {% csrf_token %}#}
+{#                                                            <div class="form-group">#}
+{#                                                                <label>خیابان</label>#}
+{#                                                                <input name="street" type="text"#}
+{#                                                                       class="form-control square"#}
+{#                                                                       value="{{ user.profile.address.street }}">#}
+{#                                                            </div>#}
+{#                                                            <div class="form-group">#}
+{#                                                                <label>شهر</label>#}
+{#                                                                <input name="city" type="text"#}
+{#                                                                       class="form-control square"#}
+{#                                                                       value="{{ user.profile.address.city }}">#}
+{#                                                            </div>#}
+{#                                                            <div class="form-group">#}
+{#                                                                <label>استان</label>#}
+{#                                                                <input name="state" type="text"#}
+{#                                                                       class="form-control square"#}
+{#                                                                       value="{{ user.profile.address.state }}">#}
+{#                                                            </div>#}
+{#                                                            <div class="form-group">#}
+{#                                                                <label>کد پستی</label>#}
+{#                                                                <input name="zipcode" type="text"#}
+{#                                                                       class="form-control square"#}
+{#                                                                       value="{{ user.profile.address.zipcode }}">#}
+{#                                                            </div>#}
+{#                                                            <div class="col-md-12">#}
+{#                                                                <button type="submit" class="btn btn-fill-out submit"#}
+{#                                                                        name="submit" value="Submit">ثبت#}
+{#                                                                </button>#}
+{#                                                            </div>#}
+{#                                                        </form>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{##}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="tab-pane fade" id="account-detail" role="tabpanel"#}
+{#                                         aria-labelledby="account-detail-tab">#}
+{#                                        <div class="card">#}
+{#                                            <div class="card-header">#}
+{#                                                <h5>جزئیات حساب</h5>#}
+{#                                            </div>#}
+{#                                            <div class="card-body">#}
+{#                                                <form method="POST" action="{% url 'customers:profile' %}" enctype="multipart/form-data">#}
+{#    {% csrf_token %}#}
+{#    <div class="row">#}
+{#        <!-- Customer and Profile Fields -->#}
+{#        <div class="form-group col-md-6">#}
+{#            <label>نام کوچک <span class="required">*</span></label>#}
+{#            <input required class="form-control square" name="first_name" type="text" value="{{ customer_form.first_name.value }}">#}
+{#        </div>#}
+{#        <div class="form-group col-md-6">#}
+{#            <label>نام خانوادگی <span class="required">*</span></label>#}
+{#            <input required class="form-control square" name="last_name" type="text" value="{{ customer_form.last_name.value }}">#}
+{#        </div>#}
+{#        <div class="form-group col-md-12">#}
+{#            <label>شماره تلفن همراه<span class="required">*</span></label>#}
+{#            <input required class="form-control square" name="phone" type="text" value="{{ customer_form.phone.value }}">#}
+{#        </div>#}
+{#        <div class="form-group col-md-12">#}
+{#            <label>آدرس ایمیل <span class="required">*</span></label>#}
+{#            <input required class="form-control square" name="email" type="email" value="{{ customer_form.email.value }}">#}
+{#        </div>#}
+{##}
+{#        <!-- Profile Image Upload -->#}
+{#        <div class="form-group col-md-12">#}
+{#            <label>عکس پروفایل</label>#}
+{#            <input class="form-control square" name="profile_image" type="file" accept="image/*">#}
+{#            {% if profile_form.instance.profile_image %}#}
+{#                <img src="{{ profile_form.instance.profile_image.url }}" alt="Current Profile Image" width="150">#}
+{#            {% endif %}#}
+{#        </div>#}
+{##}
+{#        <!-- Address Management -->#}
+{#        <div class="col-md-12">#}
+{#            <h4>Manage Your Addresses</h4>#}
+{#            <ul>#}
+{#                {% for address in addresses %}#}
+{#                    <li>#}
+{#                        {{ address }}#}
+{#                        <!-- Optionally, add edit/delete links/buttons here -->#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#            <div class="form-group col-md-12">#}
+{#                <label>New Address</label>#}
+{#                <input class="form-control square" name="street" type="text" placeholder="Street">#}
+{#                <input class="form-control square" name="city" type="text" placeholder="City">#}
+{#                <input class="form-control square" name="state" type="text" placeholder="State">#}
+{#                <input class="form-control square" name="zipcode" type="text" placeholder="Zip Code">#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="col-md-12">#}
+{#            <button type="submit" class="btn btn-fill-out submit" name="add_address" value="Add Address">Add Address</button>#}
+{#            <button type="submit" class="btn btn-fill-out submit">Update Profile</button>#}
+{#        </div>#}
+{#    </div>#}
+{#</form>#}
+{##}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div> <!-- End of tab content -->#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </section>#}
+{#    </main>#}
+{#{% endblock %}#}

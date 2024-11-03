@@ -1,0 +1,31 @@
+{% load static %}
+{% for shop in shops %}
+    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+        <div class="product-cart-wrap mb-30">
+            <div class="product-img-action-wrap">
+                <div class="product-img product-img-zoom">
+                    <a href="{% url 'website:shop_detail' shop.pk %}">
+                        <img class="default-img" style="width: 100%;
+                                                        height: 200px;
+                                                        max-width: 250px;
+                                                        max-height: 250px;
+                                                        object-fit: cover; "
+                             src="{% static 'assets/imgs/default.png' %}"
+                             alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="product-content-wrap">
+                <h2><a href="{% url 'website:shop_detail' shop.pk %}">{{ shop.name }}</a></h2>
+                <div class="product-price">
+                    <h6 style="color: rgba(255,0,0,0.59)">{{ shop.address }}</h6>
+                </div>
+                <br>
+                <div class="product-price">
+                    <h6 style="color: #1a8e8c">ایجاد شده در تاریخ :</h6>
+                    <h6 style="color: #1a8e8c;text-align: left">{{ shop.persian_create_at }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,87 @@
+
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-wrap">
+        <section class="content-main">
+            <h2 style="color: #0229a1">سفارش های مربوط به فروشگاه شما</h2><br><br>
+            <div class="table-responsive">
+                <table class="table shopping-summery text-center clean">
+                    <thead>
+                    <tr class="main-heading">
+                        <th scope="col"><h4 style="color: #13653f">خریدار</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">آدرس</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">محتوای سفارش</h4></th>
+{#                        <th scope="col"><h4 style="color: #13653f"> مبلغ فاکتور</h4></th>#}
+                        <th scope="col"><h4 style="color: #13653f">تاریخ</h4></th>
+                        <th scope="col"><h4 style="color: #13653f">وضعیت</h4></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                        <td class="product-name">
+                            <p class="font-xs">{{ order.customer }}</p>
+                        </td>
+                        <td class="product-des">
+                            <p class="font-xs">{{ order.order_address }}</p>
+                        </td>
+                        <td class="price" data-title="قیمت"><a href="{% url 'vendors:order_detail' order.pk %}"><p class="font-xs">جزئیات</p></a></td>
+
+{#                        <td class="text-center" data-title="شناسه محصول">#}
+{#                            <p class="font-xs">{{ order.payment }}</p>#}
+{#                        </td>#}
+                        <td class="text-center" data-title="شناسه محصول">
+                            <p class="font-xs">{{ order.create_at }}</p>
+                        </td>
+                        {% if perms.vendors.is_manager %}
+{#                        {% if is_manager %}#}
+                        <td class="text-right" data-title="کارت">
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                    <select name="delivered">
+                                        {% for key, value in order.ORDER_STATUS_CHOICES %}
+                                            <option value="{{ key }}" {% if order.delivered == key %}selected{% endif %}>
+                                                {{ value }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" style="color: #a91414" class="btn">تأیید</button>
+                                </form>
+                                </td>
+                            {% else %}
+                                <td class="text-right" data-title="کارت">
+                                    <p class="font-xs" style="">{{ order.delivered }}</p>
+                                </td>
+
+                            {% endif %}
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+                <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+{% endblock %}
+

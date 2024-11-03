@@ -1,0 +1,230 @@
+﻿{% extends "base.html" %}
+{% load static %}
+{% load i18n %}  <!-- Load the i18n template tag library for translation -->
+
+{% block content %}
+<main class="main">
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-detail accordion-detail">
+                        <div class="row mb-50">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="detail-gallery">
+                                    <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                    <!-- MAIN SLIDES -->
+                                    <div class="product-image-slider">
+                                        <figure class="border-radius-10">
+                                            <img src="{% if image_url %}{{ image_url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" alt="{{ product_name }}">
+                                        </figure>
+                                    </div>
+                                </div>
+                                <!-- End Gallery -->
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="detail-info">
+                                    <h2 class="title-detail">{{ product_name }}</h2>
+                                    <div class="product-detail-rating">
+                                        <div class="pro-details-brand">
+                                            <span>{% trans "Category:" %} <a href="shop-grid-right.html">{{ shop_product.product.category.name }}</a></span>
+                                        </div>
+                                        <div class="product-rate-cover text-end">
+                                            <div id="rating-stars" data-rating="{{ shop_product.average_rating }}">
+                                                <i class="fas fa-star star"></i>
+                                                <i class="fas fa-star star"></i>
+                                                <i class="fas fa-star star"></i>
+                                                <i class="fas fa-star star"></i>
+                                                <i class="fas fa-star star"></i>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted">({{ shop_product.average_rating }} {% trans "ratings" %})</span>
+                                        </div>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                const ratingElement = document.getElementById("rating-stars");
+                                                const averageRating = parseFloat(ratingElement.getAttribute("data-rating"));
+                                                const stars = ratingElement.querySelectorAll('.star');
+
+                                                stars.forEach((star, index) => {
+                                                    if (averageRating >= index + 1) {
+                                                        star.classList.add('fas', 'gold-star');
+                                                        star.classList.remove('far');
+                                                    } else {
+                                                        // Unfilled star if rating is less
+                                                        star.classList.add('far');
+                                                        star.classList.remove('fas', 'gold-star');
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                        <style>
+                                            .star {
+                                                font-size: 20px; /* Adjust the size of the stars if needed */
+                                            }
+
+                                            .gold-star {
+                                                color: gold; /* Gold color for filled stars */
+                                            }
+
+                                            .far {
+                                                color: lightgrey; /* Grey color for unfilled stars */
+                                            }
+                                        </style>
+                                        <!-- Ensure FontAwesome is loaded for star icons -->
+                                        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+                                    </div>
+                                    <div class="clearfix product-price-cover">
+                                        <div class="product-price primary-color float-left">
+                                            <ins><span class="text-brand">{% trans "Tomans" %}{{ price_after_discount|floatformat:2 }}</span></ins>
+                                            <ins><span class="old-price font-md ml-15">{% trans "Tomans" %}{{ price_before_discount|floatformat:2 }}</span></ins>
+                                            <br><br>
+                                            {% if shop_product.discount %}
+                                                {% if shop_product.discount_type == "FIXED" %}
+                                                    <span style="color: red"> {% trans "Discount" %} {{ shop_product.discount }} {% trans "Tomans" %} </span>
+                                                {% else %}
+                                                    <span style="color: red"> {% trans "Discount" %} {{ shop_product.discount }} {% trans "percent" %} </span>
+                                                {% endif %}
+                                            {% else %}
+                                                <br>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+                                    <div class="short-desc mb-30">
+                                        {#                                        <p>{{ shop_product.product.properties|dictsort:"name" }}</p>#}
+                                    </div>
+                                    <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                                    <div class="detail-extralink">
+                                        <div class="detail-qty border radius">
+                                            <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                            <span id="quantity" class="qty-val">1</span> <!-- Quantity Display -->
+                                            <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                        </div>
+                                        <div class="product-extra-link2">
+                                            <!-- Add to Cart Button -->
+                                            <button id="addToCartButton" type="submit" class="button button-add-to-cart">{% trans "Add to Cart" %}</button>
+                                        </div>
+                                    </div>
+                                    <ul class="product-meta font-xs color-grey mt-50">
+                                        <li>{% trans "Availability:" %}<span class="in-stock text-success ml-5">{{ stock }} {% trans "items in stock" %}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-10 m-auto entry-main-content">
+                                <h3 class="section-title style-1 mb-30 mt-30">{% trans "Feedback" %} ({{ count_comment }})</h3>
+                                {% for comment in comments %}
+                                    <div class="comments-area style-2">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <div class="comment-list">
+                                                    <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                            <div class="thumb text-center">
+                                                                <h6><a href="#">{{ comment.user }}</a></h6>
+                                                            </div>
+                                                            <div class="desc">
+                                                                <p>{{ comment.text }}</p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <p class="font-xs mr-30">{{ comment.persian_create_at }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="comment-form">
+                                    <h4 class="mb-15">{% trans "Add a Review" %}</h4>
+                                    <a href="{{ comment_create_url }}" class="btn btn-primary">{% trans "Add Comment" %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addToCartButton = document.getElementById('addToCartButton');
+            const quantityElement = document.getElementById('quantity');
+
+            document.querySelector('.qty-up').addEventListener('click', function () {
+                let currentQuantity = parseInt(quantityElement.textContent);
+                quantityElement.textContent = currentQuantity + 1;
+            });
+
+            document.querySelector('.qty-down').addEventListener('click', function () {
+                let currentQuantity = parseInt(quantityElement.textContent);
+                if (currentQuantity > 1) {
+                    quantityElement.textContent = currentQuantity - 1;
+                }
+            });
+
+            addToCartButton.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const quantity = parseInt(quantityElement.textContent);
+
+                const product = {
+                    id: "{{ shop_product.id }}",
+                    name: "{{ product_name }}",
+                    price_after_discount: "{{ price_after_discount|floatformat:2 }}",
+                    price_before_discount: "{{ price_before_discount|floatformat:2 }}",
+                    discount: "{{ shop_product.discount }}",
+                    discount_type: "{{ shop_product.discount_type }}",
+                    image_url: "{% if image_url %}{{ image_url }}{% else %}{% static 'images/default.jpg' %}{% endif %}",
+                    quantity: quantity
+                };
+
+                let cartItems = getCartItems();
+
+                let existingProductIndex = cartItems.findIndex(item => item.id === product.id);
+                if (existingProductIndex !== -1) {
+                    cartItems[existingProductIndex].quantity += quantity;
+                } else {
+                    cartItems.push(product);
+                }
+
+                setCartItems(cartItems);
+                updateCartIcon(cartItems);
+                updateCartDetails(cartItems);
+
+                alert('{% trans "Product added to cart!" %}');
+            });
+
+            function getCartItems() {
+                const cartCookie = getCookie('cartItems');
+                return cartCookie ? JSON.parse(cartCookie) : [];
+            }
+
+            function setCartItems(cartItems) {
+                document.cookie = 'cartItems=' + JSON.stringify(cartItems) + ';path=/';
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            function updateCartIcon(cartItems) {
+                const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+                document.getElementById('cart-icon').textContent = cartCount;
+            }
+
+            function updateCartDetails(cartItems) {
+                // Update cart details if needed
+            }
+        });
+    </script>
+</main>
+{% endblock %}

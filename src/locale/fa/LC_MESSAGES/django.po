@@ -1,0 +1,387 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-06 23:28+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: accounts/models.py:10 customers/models.py:13 dashboard/models.py:28
+msgid "Address"
+msgstr "آدرس"
+
+msgid "Addresses"
+msgstr "آدرس‌ها"
+
+msgid "Street"
+msgstr "خیابان"
+
+msgid "City"
+msgstr "شهر"
+
+msgid "State"
+msgstr "استان"
+
+msgid "Zip Code"
+msgstr "کد پستی"
+
+msgid "Email address"
+msgstr "آدرس ایمیل"
+
+msgid "Phone number must be entered in the format: '09123456789'."
+msgstr "شماره تلفن باید به صورت '09123456789' وارد شود."
+
+
+msgid "Birth Date"
+msgstr "تاریخ تولد"
+
+msgid "User"
+msgstr "کاربر"
+
+msgid "Users"
+msgstr "کاربران"
+
+msgid "Bio"
+msgstr "بیوگرافی"
+
+msgid "Profile Image"
+msgstr "تصویر پروفایل"
+
+msgid "Creation Date"
+msgstr "تاریخ ایجاد"
+
+msgid "Customer"
+msgstr "مشتری"
+
+msgid "Total Payment"
+msgstr "مجموع پرداخت"
+
+msgid "Preparing"
+msgstr "در حال آماده‌سازی"
+
+msgid "Sending"
+msgstr "در حال ارسال"
+
+msgid "Completed"
+msgstr "تکمیل شده"
+
+msgid "Order Status"
+msgstr "وضعیت سفارش"
+
+msgid "Order Address"
+msgstr "آدرس سفارش"
+
+msgid "Order"
+msgstr "سفارش"
+
+
+msgid "Quantity"
+msgstr "تعداد"
+
+msgid "Total Price"
+msgstr "مجموع قیمت"
+
+msgid "Name"
+msgstr "نام"
+
+msgid "Slug"
+msgstr "نامک"
+
+msgid "Created At"
+msgstr "تاریخ ایجاد"
+
+msgid "Updated At"
+msgstr "تاریخ بروزرسانی"
+
+msgid "Active"
+msgstr "فعال"
+
+msgid "Order Count"
+msgstr "تعداد سفارش"
+
+msgid "Rating Count"
+msgstr "تعداد امتیاز"
+
+msgid "Sum Rating"
+msgstr "مجموع امتیاز"
+
+msgid "Average Rating"
+msgstr "میانگین امتیاز"
+
+msgid "Profile"
+msgstr "پروفایل"
+
+msgid "Profiles"
+msgstr "پروفایل‌ها"
+
+msgid "Customers"
+msgstr "مشتریان"
+
+msgid "Percentage Discount"
+msgstr "تخفیف درصدی"
+
+msgid "Fixed Discount"
+msgstr "تخفیف ثابت"
+
+msgid "Stock"
+msgstr "موجودی"
+
+msgid "Rating"
+msgstr "امتیاز"
+
+msgid "Ratings"
+msgstr "امتیازات"
+
+msgid "Content Type"
+msgstr "نوع محتوا"
+
+msgid "Object ID"
+msgstr "شناسه شیء"
+
+msgid "Comment"
+msgstr "نظر"
+
+msgid "Product"
+msgstr "محصول"
+
+
+msgid "Your password must contain at least 8 characters."
+msgstr "رمز عبور شما باید حداقل 8 کاراکتر باشد."
+
+msgid "The two password fields must match."
+msgstr "دو فیلد رمز عبور باید مطابقت داشته باشند."
+
+msgid "Confirm Password"
+msgstr "تأیید رمز عبور"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "Pages"
+msgstr "صفحات"
+
+msgid "Register / Login"
+msgstr "ثبت نام / ورود"
+
+msgid "Login"
+msgstr "وارد شدن"
+
+msgid "Create an Account"
+msgstr "ایجاد یک حساب"
+
+msgid "All account information will remain private after registration. Your data will not be listed on Google, so rest assured."
+msgstr "تمامی اطلاعات حساب شما هنگام ثبت نام ، یک راز شخصی می ماند و هیچ یک از اطلاعات شما در صفحات گوگل لیست نمیشود و خیال شما جمع باشد."
+
+msgid "Email or Mobile Number"
+msgstr "ایمیل یا شماره تلفن همراه"
+
+msgid "Password"
+msgstr "کلمه عبور"
+
+msgid "First Name"
+msgstr "نام"
+
+msgid "Last Name"
+msgstr "نام خانوادگی"
+
+msgid "Phone"
+msgstr "شماره تلفن"
+
+msgid "Email Address"
+msgstr "آدرس ایمیل"
+
+msgid "Submit, Register"
+msgstr "ارسال، ثبت نام"
+# Translating "Category"
+msgid "Category"
+msgstr "دسته بندی"
+
+# Translating "Sort By"
+msgid "Sort By"
+msgstr "مرتب سازی بر اساس"
+
+# Translating "Top Rated"
+msgid "Top Rated"
+msgstr "بیشترین امتیاز"
+
+# Translating "Best Selling"
+msgid "Best Selling"
+msgstr "پرفروش ترین"
+
+# Translating "Most Expensive"
+msgid "Most Expensive"
+msgstr "گرانترین"
+
+# Translating "Cheapest"
+msgid "Cheapest"
+msgstr "ارزانترین"
+
+
+
+# Translating "Discount"
+msgid "Discount"
+msgstr "تخفیف"
+
+# Translating "Toman"
+msgid "Toman"
+msgstr "تومان"
+
+# Translating "Add to Cart"
+msgid "Add to Cart"
+msgstr "سبد خرید"
+
+# Translating "Created on Date:"
+msgid "Created on Date:"
+msgstr "ایجاد شده در تاریخ :"
+
+
+msgid "Categories"
+msgstr "دسته بندی ها"
+
+
+
+
+
+msgid "Percent"
+msgstr "درصد"
+
+msgid "Created on:"
+msgstr "ایجاد شده در تاریخ :"
+
+msgid "Browse Categories"
+msgstr "دسته ها را مرور کنید"
+
+
+msgid "About Us"
+msgstr "درباره ما"
+
+msgid "Shops"
+msgstr "فروشگاه ها"
+
+
+msgid "Login/Register"
+msgstr "ورود/ثبت نام"
+
+msgid "Partners Login"
+msgstr "ورود همکاران"
+
+msgid "Hotline"
+msgstr "هات لاین"
+
+msgid " تومان"
+msgstr "تومان"
+
+msgid "Your Wishlist"
+msgstr "لیست علاقه مندی های شما"
+
+msgid "Your Cart"
+msgstr "سبد خرید شما"
+
+msgid "View Cart"
+msgstr "مشاهده سبد خرید"
+
+msgid "Checkout"
+msgstr "صورت حساب"
+
+msgid "Winter Simple Shirts"
+msgstr "پیراهن های زمستانه ساده"
+
+msgid "MacBook Pro 1402"
+msgstr "مک بوک پرو 1402"
+
+msgid "Total"
+msgstr "کل"
+
+msgid "Get up to 50% off on great devices"
+msgstr "تا ۵۰ درصد تخفیف برای دستگاه‌های عالی"
+
+msgid "View Details"
+msgstr "مشاهده جزئیات"
+
+msgid "Value deals - Save more with coupons"
+msgstr "تخفیف‌های ارزشمند - بیشتر با کوپن‌ها صرفه‌جویی کنید"
+
+msgid "Trendy jewelry, today 35 percent"
+msgstr "زیورآلات مد روز، امروز ۳۵ درصد"
+
+msgid "Shop Now"
+msgstr "خرید کنید"
+
+msgid "Our Location"
+msgstr "موقعیت ما"
+
+
+msgid "Purchase History"
+msgstr "تاریخچه خرید"
+
+msgid "Logout"
+msgstr "خروج"
+
+msgid "Login / Register"
+msgstr "ورود / ثبت نام"
+
+msgid "Cart"
+msgstr "سبد خرید"
+
+msgid "Search items..."
+msgstr "جستجو..."
+
+msgid "Logo"
+msgstr "لوگو"
+
+msgid "Vendors Login"
+msgstr "ورود همکاران"
+
+msgid "Tomans"
+msgstr "تومان"
+
+
+msgid "Add Comment"
+msgstr "اضافه کردن نظر"
+
+msgid "Feedback"
+msgstr "بازخورد"
+
+msgid "Availability:"
+msgstr "موجودی:"
+
+msgid "items in stock"
+msgstr "اقلام در انبار"
+
+
+msgid "percent"
+msgstr "درصد"
+
+msgid "Add a Review"
+msgstr "اضافه کردن بررسی"
+
+msgid "Product added to cart!"
+msgstr "محصول به سبد خرید اضافه شد!"
+
+msgid "Quantity Display"
+msgstr "نمایش تعداد"
+
+
+msgid "Category:"
+msgstr "دسته بندی:"
+
+msgid "ratings"
+msgstr "امتیاز"
+
+
+
+
+
+

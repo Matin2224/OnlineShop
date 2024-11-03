@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="cart-container">
+    <h2>سبد خرید شما</h2>
+    <table id="cartTable">
+        <thead>
+            <tr>
+                <th>محصول</th>
+                <th>قیمت</th>
+                <th>تعداد</th>
+                <th>مجموع</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Items will be populated here via JavaScript -->
+        </tbody>
+    </table>
+    <div class="cart-total">
+        <strong>مجموع پرداختی:</strong> <span id="totalPrice">0</span>
+    </div>
+    <button id="checkoutButton">پرداخت</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        loadCartItems();
+
+        function loadCartItems() {
+            // Example function to retrieve items from cookies/localStorage
+            const cartItems = getCartItemsFromCookies(); // Replace with actual implementation
+            const $cartTableBody = $('#cartTable tbody');
+            let totalPrice = 0;
+
+            cartItems.forEach(function (item) {
+                const totalItemPrice = item.quantity * item.price;
+                totalPrice += totalItemPrice;
+
+                $cartTableBody.append(`
+                    <tr>
+                        <td>${item.product_name}</td>
+                        <td>${item.price}</td>
+                        <td><input type="number" value="${item.quantity}" data-id="${item.id}" class="quantity-input"></td>
+                        <td>${totalItemPrice}</td>
+                        <td><button class="remove-item" data-id="${item.id}">حذف</button></td>
+                    </tr>
+                `);
+            });
+
+            $('#totalPrice').text(totalPrice);
+        }
+
+        // Handle quantity change
+        $('#cartTable').on('change', '.quantity-input', function () {
+            const id = $(this).data('id');
+            const newQuantity = $(this).val();
+            // Update quantity in cookies/localStorage and recalculate total
+            updateCartItemQuantity(id, newQuantity); // Replace with actual implementation
+            loadCartItems();
+        });
+
+        // Handle item removal
+        $('#cartTable').on('click', '.remove-item', function () {
+            const id = $(this).data('id');
+            // Remove item from cookies/localStorage and update table
+            removeCartItem(id); // Replace with actual implementation
+            loadCartItems();
+        });
+
+        // Handle checkout button
+        $('#checkoutButton').on('click', function () {
+            // Check if the user is logged in, redirect to login if not
+            if (!isLoggedIn()) {
+                window.location.href = "{% url 'login' %}?next={% url 'cart_view' %}";
+            } else {
+                // Trigger checkout process (likely involves an AJAX call)
+                processCheckout(); // Replace with actual implementation
+            }
+        });
+
+        // Example functions for cookie/localStorage operations
+        function getCartItemsFromCookies() {
+            // Dummy data, replace with actual implementation
+            return [
+                { id: 1, product_name: 'محصول 1', price: 100000, quantity: 2 },
+                { id: 2, product_name: 'محصول 2', price: 200000, quantity: 1 }
+            ];
+        }
+
+        function updateCartItemQuantity(id, quantity) {
+            // Update the item quantity in cookies/localStorage
+            // Implementation needed
+        }
+
+        function removeCartItem(id) {
+            // Remove the item from cookies/localStorage
+            // Implementation needed
+        }
+
+        function isLoggedIn() {
+            // Check if the user is logged in
+            // Implementation needed, return true or false
+            return true; // Dummy value, replace with actual check
+        }
+
+        function processCheckout() {
+            // Implement the checkout process here
+            alert("Processing checkout...");
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <body>
+    <main class="main">
+        <section class="product-tabs pt-25 pb-20 wow fadeIn animated">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+
+                        <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">مرتب سازی بر اساس</h5>
+                            <ul class="categories">
+                                <li><a href="{% url 'dashboard:top_selling' %}">پرفروش ترین</a></li>
+                                <li><a href="{% url 'dashboard:newest_shop_list' %}">جدیدترین</a></li>
+                                <li><a href="{% url 'dashboard:best' %}">بالاترین امتیاز</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="tab-content wow fadeIn animated" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-one" role="tabpanel"
+                                 aria-labelledby="tab-one">
+                                <div class="row product-grid-4">
+                                    {% for shop in shops %}
+                                        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap mb-30">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="{% url 'website:shop_detail' shop.pk %}">
+                                                            <img class="default-img" style="width: 100%;
+                                                                                            height: 200px;
+                                                                                            max-width: 250px;
+                                                                                            max-height: 250px;
+                                                                                            object-fit: cover; "
+                                                                 src="{% static 'assets/imgs/default.png' %}"
+                                                                 alt="">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <div class="product-rate-cover text-end">
+                    <div class="rating-stars" data-rating="{{ shop.average_rating }}">
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                    </div>
+                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ shop.average_rating }} امتیاز)</span>
+                </div>
+{#<span style="color: #8a7406">  {{ shop.average_rating }} امتیاز  </span>#}
+                                                    <h2><a href="{% url 'website:shop_detail' shop.pk %}">
+                                                        {{ shop.name }}
+                                                    </a></h2>
+                                                    <div class="product-price">
+
+                                                            <h6 style="color: rgba(255,0,0,0.59)">{{ shop.address }}</h6>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="product-price" >
+                                                        <h6 style="color: #1a8e8c" >ایجاد شده در تاریخ : </h6>
+                                                        <h6 style="color: #1a8e8c;text-align: left">  {{ shop.persian_create_at }} </h6>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .star {
+    font-size: 15px;
+}
+
+.gold-star {
+    color: gold;
+}
+
+.far {
+    color: lightgrey;
+}
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const ratingElements = document.querySelectorAll(".rating-stars");
+
+    ratingElements.forEach(function (ratingElement) {
+        const averageRating = parseFloat(ratingElement.getAttribute("data-rating"));
+        const stars = ratingElement.querySelectorAll('.star');
+
+        stars.forEach((star, index) => {
+            if (averageRating >= index + 1) {
+                star.classList.add('fas', 'gold-star');
+                star.classList.remove('far');
+            } else {
+                // Unfilled star if rating is less
+                star.classList.add('far');
+                star.classList.remove('fas', 'gold-star');
+            }
+        });
+    });
+});
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdowns = document.querySelectorAll('.dropdown');
+
+            dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener('mouseover', function () {
+                    this.querySelector('.subcategories').style.display = 'block';
+                });
+
+                dropdown.addEventListener('mouseout', function () {
+                    this.querySelector('.subcategories').style.display = 'none';
+                });
+            });
+        });
+    </script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    </body>
+{% endblock %}

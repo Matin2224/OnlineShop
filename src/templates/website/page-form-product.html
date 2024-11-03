@@ -1,0 +1,242 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-wrap">
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">اضافه کردن محصول جدید</h2>
+                    </div>
+                </div>
+            </div>
+            <ul>
+                <li>
+                    {% if request.user.is_authenticated %}
+
+                        <li><a href="#">{{ request.user.email }}</a></li>
+                    {% endif %}
+
+                </li>
+            </ul>
+            <form method="post" action="{% url 'website:product-create' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row"> <!-- Added row container -->
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>پایه</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label class="form-label">نام محصول</label>
+                                    <input class="form-control" type="text" required="" name="name"
+                                           value="{{ form.name.value|default:'' }}" placeholder="اینجا بنویسید">
+                                    {{ form.name.errors }}
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">اسلاگ</label>
+                                    <input class="form-control" type="text" name="slug"
+                                           value="{{ form.slug.value|default:'' }}"
+                                           placeholder="اینجا بنویسید (اختیاری)">
+                                    {{ form.slug.errors }}
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">ویژگی‌ها</label>
+                                    <textarea class="form-control" name="properties"
+                                              placeholder="اینجا بنویسید">{{ form.properties.value|default:'' }}</textarea>
+                                    {{ form.properties.errors }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">قیمت </label>
+                                            <div class="row gx-2">
+                                                <input class="form-control" type="number" step="0.01" min="0"
+                                                       name="price"
+                                                       value="{{ shop_product_form.price.value|default:'' }}"
+                                                       placeholder="قیمت">
+                                                {{ shop_product_form.price.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">تخفیف</label>
+                                            <input class="form-control" type="number" step="0.01" min="0"
+                                                   name="discount"
+                                                   value="{{ shop_product_form.discount.value|default:'' }}"
+                                                   placeholder="تخفیف">
+                                            {{ shop_product_form.discount.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label class="form-label">نوع تخفیف</label>
+                                        <select class="form-control" name="discount_type">
+                                            <option value="PERCENTAGE"
+                                                    {% if shop_product_form.discount_type.value == "PERCENTAGE" %}selected{% endif %}>
+                                                تخفیف درصدی
+                                            </option>
+                                            <option value="FIXED"
+                                                    {% if shop_product_form.discount_type.value == "FIXED" %}selected{% endif %}>
+                                                تخفیف ثابت
+                                            </option>
+                                        </select>
+                                        {{ shop_product_form.discount_type.errors }}
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">موجودی</label>
+                                        <input class="form-control" type="number" min="0" name="stock"
+                                               value="{{ shop_product_form.stock.value|default:'' }}"
+                                               placeholder="موجودی">
+                                        {{ shop_product_form.stock.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>تصویر</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-upload">
+                                    <img src="{% static 'assets-back/imgs/theme/upload.svg' %}" alt="">
+                                    <input class="form-control" type="file" name="image">
+                                    {{ image_form.image.errors }}
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>دسته بندی</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row gx-2">
+                                    <div class="col-sm-6 mb-3">
+                                        <div class="mb-4">
+                                            <select class="form-control" name="category">
+                                                <option value="" disabled selected>انتخاب</option>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}"
+                                                            {% if category.id == form.category.value %}selected{% endif %}>{{ category.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {{ form.category.errors }}
+                                        </div>
+                                    </div> <!-- row.// -->
+                                </div>
+                            </div> <!-- card end// -->
+                        </div>
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-primary w-100">ارسال و ثبت محصول</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+    </main>
+{% endblock %}
+
+
+
+{##}
+{#{% extends "base-back.html" %}#}
+{#{% load static %}#}
+{#{% block content %}#}
+{#    <main>#}
+{#        <section class="content-main mt-80 mb-80">#}
+{#            <div class="card mx-auto card-login">#}
+{#                <div class="card-body">#}
+{#                <ul>#}
+{#                                                <li>#}
+{#                                                    {% if request.user.is_authenticated %}#}
+{##}
+{#                                                        <li><a href="#">{{ request.user.email }}</a></li>#}
+{#                                                    {% endif %}#}
+{##}
+{#                                                </li>#}
+{#                                            </ul>#}
+{#                    <h4 class="card-title mb-4">ایجاد محصول</h4>#}
+{#                    <form method="post" action="{% url 'website:product-create' %}" enctype="multipart/form-data">#}
+{#                        {% csrf_token %}#}
+{##}
+{#                        <!-- Product Information -->#}
+{#                        <p class="text-center small text-muted mb-15">اطلاعات محصول</p>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">نام محصول</label>#}
+{#                            <input class="form-control" type="text" required="" name="name"#}
+{#                                   value="{{ form.name.value|default:'' }}" placeholder="نام محصول">#}
+{#                            {{ form.name.errors }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">اسلاگ</label>#}
+{#                            <input class="form-control" type="text" name="slug"#}
+{#                                   value="{{ form.slug.value|default:'' }}" placeholder="اسلاگ (اختیاری)">#}
+{#                            {{ form.slug.errors }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">ویژگی‌ها</label>#}
+{#                            <textarea class="form-control" name="properties" placeholder="ویژگی‌ها">{{ form.properties.value|default:'' }}</textarea>#}
+{#                            {{ form.properties.errors }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">دسته بندی</label>#}
+{#                            <select class="form-control" name="category">#}
+{#                                <option value="" disabled selected>انتخاب دسته بندی</option>#}
+{#                                {% for category in categories %}#}
+{#                                    <option value="{{ category.id }}" {% if category.id == form.category.value %}selected{% endif %}>{{ category.name }}</option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                            {{ form.category.errors }}#}
+{#                        </div>#}
+{##}
+{#                        <!-- Shop Product Information -->#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">قیمت</label>#}
+{#                            <input class="form-control" type="number" step="0.01" min="0" name="price"#}
+{#                                   value="{{ shop_product_form.price.value|default:'' }}" placeholder="قیمت">#}
+{#                            {{ shop_product_form.price.errors }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">تخفیف</label>#}
+{#                            <input class="form-control" type="number" step="0.01" min="0" name="discount"#}
+{#                                   value="{{ shop_product_form.discount.value|default:'' }}" placeholder="تخفیف">#}
+{#                            {{ shop_product_form.discount.errors }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">نوع تخفیف</label>#}
+{#                            <select class="form-control" name="discount_type">#}
+{#                                <option value="PERCENTAGE" {% if shop_product_form.discount_type.value == "PERCENTAGE" %}selected{% endif %}>تخفیف درصدی</option>#}
+{#                                <option value="FIXED" {% if shop_product_form.discount_type.value == "FIXED" %}selected{% endif %}>تخفیف ثابت</option>#}
+{#                            </select>#}
+{#                            {{ shop_product_form.discount_type.errors }}#}
+{#                        </div>#}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">موجودی</label>#}
+{#                            <input class="form-control" type="number" min="0" name="stock"#}
+{#                                   value="{{ shop_product_form.stock.value|default:'' }}" placeholder="موجودی">#}
+{#                            {{ shop_product_form.stock.errors }}#}
+{#                        </div>#}
+{##}
+{#                        <!-- Product Image -->#}
+{##}
+{#                        <div class="mb-3">#}
+{#                            <label class="form-label">تصویر محصول</label>#}
+{#                            <input class="form-control" type="file" name="image">#}
+{#                            {{ image_form.image.errors }}#}
+{#                        </div>#}
+{##}
+{#                        <div class="mb-4">#}
+{#                            <button type="submit" class="btn btn-primary w-100">ارسال و ثبت محصول</button>#}
+{#                        </div>#}
+{#                    </form>#}
+{##}
+{#                    <p class="text-center mb-2">برای برگشت به صفحه قبلی <a href="{% url 'website:product-create' %}">اینجا کلیک کنید</a></p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </section>#}
+{#    </main>#}
+{#{% endblock %}#}

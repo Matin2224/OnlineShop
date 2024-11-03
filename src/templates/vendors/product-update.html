@@ -1,0 +1,50 @@
+{% extends "base-back.html" %}
+{% load static %}
+
+
+{% block title %}ویرایش محصول فروشگاه{% endblock %}
+
+{% block content %}
+  <main class="main-wrap">
+        <section class="content-main">
+
+<div class="container">
+    <h1>ویرایش محصول: {{ product.product.name }}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_price" class="form-label">قیمت</label>
+            <input type="number" name="price" class="form-control" id="id_price" value="{{ product.price }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="id_discount" class="form-label">تخفیف</label>
+            <input type="number" name="discount" class="form-control" id="id_discount" value="{{ product.discount }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="id_discount_type" class="form-label">نوع تخفیف</label>
+            <select name="discount_type" class="form-control" id="id_discount_type">
+                <option value="PERCENTAGE" {% if product.discount_type == "PERCENTAGE" %}selected{% endif %}>درصدی</option>
+                <option value="FIXED" {% if product.discount_type == "FIXED" %}selected{% endif %}>ثابت</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_stock" class="form-label">موجودی</label>
+            <input type="number" name="stock" class="form-control" id="id_stock" value="{{ product.stock }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">ذخیره</button>
+        <a href="{% url 'website:product-list'%}" class="btn btn-secondary">لغو</a>
+    </form>
+</div>
+
+
+        </section>
+    </main>
+{% endblock %}
+
+

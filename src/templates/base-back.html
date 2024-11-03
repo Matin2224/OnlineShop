@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa">
+
+<head>
+    <meta charset="utf-8">
+    <title>داشبورد اورا</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href={% static "assets-back/imgs/theme/favicon.svg" %}>
+    <!-- Template CSS -->
+    <link href={% static "assets-back/css/main.css" %} rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href={% static "assets-back/css/persian-datepicker.css" %}>
+</head>
+<body>
+
+{% block header %}
+    {% include "header-back.html" %}
+{% endblock %}
+
+{% block aside %}
+    {% include "aside-back.html" %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block footer %}
+    {% include "footer-back.html" %}
+{% endblock footer %}
+
+
+
+<!-- Vendor JS-->
+<script src={% static "assets-back/js/vendors/jquery-3.6.0.min.js" %}></script>
+<script src={% static "assets-back/js/vendors/bootstrap.bundle.min.js" %}></script>
+<script src={% static "assets-back/js/vendors/jquery.fullscreen.min.js" %}></script>
+<!-- Main Script -->
+<script src={% static "assets-back/js/main.js" %} type="text/javascript"></script>
+<script src={% static "assets-back/js/custom-chart.js" %} type="text/javascript"></script>
+<script src={% static "assets-back/js/persian-datepicker.js" %}></script>
+<script src={% static "assets-back/js/app.js" %} type="text/javascript"></script>
+<script src={% static "assets-back/js/persian-date.js" %}></script>
+<script>
+    if (typeof HTMLElement != "undefined" && !HTMLElement.prototype.insertAdjacentElement) {
+        HTMLElement.prototype.insertAdjacentElement = function (where, parsedNode) {
+            switch (where) {
+                case 'beforeBegin':
+                    this.parentNode.insertBefore(parsedNode, this)
+                    break;
+                case 'afterBegin':
+                    this.insertBefore(parsedNode, this.firstChild);
+                    break;
+                case 'beforeEnd':
+                    this.appendChild(parsedNode);
+                    break;
+                case 'afterEnd':
+                    if (this.nextSibling)
+                        this.parentNode.insertBefore(parsedNode, this.nextSibling);
+                    else
+                        this.parentNode.appendChild(parsedNode);
+                    break;
+            }
+        }
+
+        HTMLElement.prototype.insertAdjacentHTML = function (where, htmlStr) {
+            var r = this.ownerDocument.createRange();
+            r.setStartBefore(this);
+            var parsedHTML = r.createContextualFragment(htmlStr);
+            this.insertAdjacentElement(where, parsedHTML)
+        }
+
+        HTMLElement.prototype.insertAdjacentText = function (where, txtStr) {
+            var parsedText = document.createTextNode(txtStr)
+            this.insertAdjacentElement(where, parsedText)
+        }
+    }
+</script>
+
+<script src={% static "assets-back/js/vendors/select2.min.js" %}></script>
+<script src={% static "assets-back/js/vendors/perfect-scrollbar.js" %}></script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,122 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main>
+        <section class="content-main mt-80 mb-80">
+        <div class="card mx-auto card-login">
+            <div class="card-body">
+                <h4 class="card-title mb-4">ایجاد یک حساب مدیریت</h4>
+                <form method="post" action="{% url 'vendors:register' %}">
+                    {% csrf_token %}
+
+                    <!-- Staff Information -->
+                    <div class="mb-3">
+                        <label class="form-label">نام</label>
+                        <input class="form-control" type="text" required="" name="first_name"
+                               value="{{ form.first_name.value|default:'' }}" placeholder="نام">
+                        {{ form.first_name.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">نام خانوادگی</label>
+                        <input class="form-control" type="text" required="" name="last_name"
+                               value="{{ form.last_name.value|default:'' }}" placeholder="نام خانوادگی">
+                        {{ form.last_name.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">پست الکترونیک</label>
+                        <input class="form-control" type="email" required="" name="email"
+                               value="{{ form.email.value|default:'' }}" placeholder="ایمیل شما">
+                        {{ form.email.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">تلفن</label>
+
+                        <input class="form-control" type="text" required="" name="phone" value="{{ form.phone.value|default:'' }}"
+                               placeholder="شماره تلفن همراه">
+                        {{ form.phone.errors }}
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">رمز عبور ایجاد کنید</label>
+                        <input class="form-control" required="" type="password" name="password1"
+                               placeholder="پسورد">
+                        {{ form.password1.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">تأیید رمز عبور</label>
+                        <input class="form-control" required="" type="password" name="password2"
+                               placeholder="تأیید پسورد">
+                        {{ form.password2.errors }}
+                    </div>
+
+                    <!-- Address Information -->
+                    <p class="text-center small text-muted mb-15">اطلاعات آدرس</p>
+                    <div class="mb-3">
+                        <label class="form-label">خیابان</label>
+                        <input class="form-control" type="text" required="" name="street"
+                               value="{{ address_form.street.value|default:'' }}" placeholder="خیابان">
+                        {{ address_form.street.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">شهر</label>
+                        <input class="form-control" type="text" required="" name="city"
+                               value="{{ address_form.city.value|default:'' }}" placeholder="شهر">
+                        {{ address_form.city.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">استان</label>
+                        <input class="form-control" type="text" required="" name="state"
+                               value="{{ address_form.state.value|default:'' }}" placeholder="استان">
+                        {{ address_form.state.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">کد پستی</label>
+                        <input class="form-control" type="text" required="" name="zipcode"
+                               value="{{ address_form.zipcode.value|default:'' }}" placeholder="کد پستی">
+                        {{ address_form.zipcode.errors }}
+                    </div>
+
+                    <!-- Shop Information -->
+                    <p class="text-center small text-muted mb-15">اطلاعات فروشگاه</p>
+                    <div class="mb-3">
+                        <label class="form-label">نام فروشگاه</label>
+                        <input class="form-control" type="text" required="" name="name"
+                               value="{{ shop_form.name.value|default:'' }}" placeholder="نام فروشگاه">
+                        {{ shop_form.name.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">اسلاگ (اختیاری)</label>
+                        <input class="form-control" type="text" name="slug"
+                               value="{{ shop_form.slug.value|default:'' }}" placeholder="اسلاگ (اختیاری)">
+                        {{ shop_form.slug.errors }}
+                    </div>
+{#                    <div class="mb-3 form-check">#}
+{#                        <input class="form-check-input" type="checkbox" name="active"#}
+{#                               {% if shop_form.active.value %}checked{% endif %}>#}
+{#                        <label class="form-check-label" for="active">فعال</label>#}
+{#                        {{ shop_form.active.errors }}#}
+{#                    </div>#}
+
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-primary w-100">ارسال , ثبت نام</button>
+                    </div>
+                </form>
+
+                <p class="text-center mb-2">در حال حاضر یک حساب کاربری دارید؟ <a href="{% url 'vendors:login' %}">اکنون وارد شوید</a></p>
+            </div>
+        </div>
+    </section>
+    </main>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

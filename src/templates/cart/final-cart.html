@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انتخاب آدرس و مشاهده سبد خرید</title>
+    <style>
+        /* Add some basic styling for layout */
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .basket-items, .address-selection {
+            margin-bottom: 20px;
+        }
+        .basket-item, .address-option {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .address-option input {
+            margin-left: 10px;
+        }
+        .button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>سبد خرید شما</h2>
+    <div class="basket-items">
+        {% for item in basket_items %}
+        <div class="basket-item">
+            <h4>{{ item.product.name }}</h4>
+            <p>قیمت: {{ item.price }} تومان</p>
+            <p>تعداد: {{ item.quantity }}</p>
+            <p>جمع کل: {{ item.total_price }} تومان</p>
+        </div>
+        {% empty %}
+        <p>سبد خرید شما خالی است.</p>
+        {% endfor %}
+    </div>
+
+    <h2>انتخاب آدرس</h2>
+    <form method="post" action="{% url 'order_finalize' %}">
+        {% csrf_token %}
+        <div class="address-selection">
+            {% for address in addresses %}
+            <div class="address-option">
+                <input type="radio" name="selected_address" id="address_{{ address.id }}" value="{{ address.id }}" required>
+                <label for="address_{{ address.id }}">
+                    {{ address.full_name }} - {{ address.address_line_1 }} - {{ address.city }} - {{ address.postal_code }}
+                </label>
+            </div>
+            {% empty %}
+            <p>شما هنوز آدرسی ثبت نکرده‌اید.</p>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="button">نهایی کردن خرید</button>
+    </form>
+</div>
+
+</body>
+</html>

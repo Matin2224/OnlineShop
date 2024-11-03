@@ -1,0 +1,15 @@
+% extends "base.html" %}
+{% block content %}
+    <main class="main">
+        <section class="mt-50 mb-50">
+            <div class="container">
+<h2>Rate {{ product.product.name }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Rating</button>
+</form>
+            </div>
+        </section>
+    </main>
+{% endblock %}

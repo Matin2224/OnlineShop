@@ -1,0 +1,46 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <section class="content-main mt-80 mb-80">
+            <div class="card mx-auto card-login">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">ورود</h4>
+                    <ul>
+                                                <li>
+                                                    {% if request.user.is_authenticated %}
+
+                                                        <li><a href="#">{{ request.user.email }}</a></li>
+                                                    {% endif %}
+
+                                                </li>
+                                            </ul>
+                    <form method="POST" action="{% url 'vendors:login' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input class="form-control" name="login" placeholder="شماره تلفن همراه یا پست الکترونیک" type="text">
+                        </div> <!-- form-group// -->
+                        <div class="mb-3">
+                            <input class="form-control" name="password" placeholder="رمزعبور" type="password">
+                        </div> <!-- form-group// -->
+                        <!-- form-group form-check .// -->
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-primary w-100"> ورود </button>
+                        </div> <!-- form-group// -->
+                    </form>
+                    <p class="text-center small text-muted mb-15">یا ثبت نام کنید</p>
+
+                    <p class="text-center mb-4">حساب ندارید؟ <a href="{% url 'vendors:register' %}">ثبت نام</a></p>
+                </div>
+            </div>
+        </section>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

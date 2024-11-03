@@ -1,0 +1,93 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <head>
+    <meta charset="utf-8">
+    <title>Evara - قالب HTML تجارت الکترونیک | اوارا</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <link rel="stylesheet" href={% static "css/persian.datepicker.css" %}/>
+    <script src={% static "js/jquery.js" %}></script>
+    <script src={% static "js/persian.date.js" %}></script>
+    <script src={% static "js/persian.datepicker.js" %}></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href={% static 'assets/imgs/theme/favicon.svg' %}>
+    <!-- Template CSS -->
+    <link rel="stylesheet" href={% static 'assets/css/main.css' %}>
+    <link rel="stylesheet" href= {% static "assets/css/persian-datepicker.css" %}>
+    <meta name="csrf-token" content="{% csrf_token %}">
+
+
+</head>
+    <main class="main-wrap">
+        <section class="content-main">
+            <div class="table-responsive order_table text-center">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th colspan="2">تولید - محصول</th>
+                        <th>جمع</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in product_orders %}
+                        {% if item.order == order %}
+                            <tr>
+                                <td class="image product-thumbnail">
+                                    <img src="{{ item.product.product.get_image_url }}"
+                                         alt="{{ item.product.product.name }}">
+                                </td>
+                                <td>
+                                    <h5>
+                                        <a href="#">{{ item.product.product.name }}</a>
+                                    </h5>
+                                    <span class="product-qty">x {{ item.quantity }}</span>
+                                </td>
+                                <td>
+                                    <asd>تومان</asd>
+                                    {{ item.total_price }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    <tr>
+                        <th>تاریخ سفارش</th>
+                        <td colspan="2" class="product-subtotal">
+                                            <span class="#" style="color: red">
+                                                {{ order.persian_create_at }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>وضعیت سفارش</th>
+                        <td colspan="2" class="product-subtotal">
+                                            <span class="#">
+                                                 {{ order.delivered }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>آدرس سفارش</th>
+                        <td colspan="2" class="product-subtotal">
+                                            <span class="#" style="color: #1d288d">
+                                                 {{ order.order_address }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>جمع</th>
+                        <td colspan="2" class="product-subtotal">
+                                            <span class="font-xl text-brand fw-900"><asd>تومان</asd>
+                                                {{ order.calculate_payment }}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+

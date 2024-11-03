@@ -1,0 +1,108 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+<main class="main-wrap">
+    <section class="content-main">
+        <div class="staff-detail-container">
+            <style>
+                .staff-detail-container {
+                    display: flex;
+                    flex-direction: column;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                }
+
+                .staff-info {
+                    margin-bottom: 20px;
+                }
+
+                .staff-info h2 {
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                }
+
+                .staff-job-type {
+                    font-size: 20px;
+                    color: #007bff;
+                    margin-bottom: 10px;
+                }
+
+                .staff-shop {
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+
+                .product-info {
+                    margin-bottom: 20px;
+                }
+
+                .product-info h2 {
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                }
+
+                .product-price {
+                    font-size: 20px;
+                    color: #28a745;
+                    margin-bottom: 10px;
+                }
+
+                .product-discount {
+                    font-size: 18px;
+                    color: #dc3545;
+                    margin-bottom: 10px;
+                }
+
+                .product-stock {
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+
+                .product-rating {
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+
+                .product-discount-type {
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+
+                .product-rating span {
+                    color: gold;
+                }
+
+                .product-description {
+                    margin-top: 20px;
+                    font-size: 16px;
+                    line-height: 1.5;
+                }
+            </style>
+
+            <!-- Staff Info -->
+            <div class="staff-info">
+                <h2>{{ staff.first_name }} {{ staff.last_name }}</h2>
+
+                <!-- Staff Job Type -->
+                <div class="staff-job-type">
+                    نوع شغل: {{ staff.get_type_display }}
+                </div>
+
+                <div class="staff-job-type">
+                    ایمیل: {{ staff.email }}
+                </div>
+
+                <!-- Staff Shop -->
+                <div class="staff-shop">
+                    فروشگاه: {{ staff.shop.name }}
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

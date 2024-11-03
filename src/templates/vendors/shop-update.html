@@ -1,0 +1,45 @@
+
+
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+<main class="main-wrap">
+    <section class="content-main">
+        <div class="staff-detail-container">
+          {% block title %}ویرایش فروشگاه{% endblock %}
+
+<div class="container">
+    <h1>ویرایش فروشگاه: {{ object.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Shop Name -->
+        <div class="mb-3">
+            <label for="id_name" class="form-label">نام فروشگاه</label>
+            <input type="text" name="name" class="form-control" id="id_name" value="{{ object.name }}">
+        </div>
+
+        <!-- Active Status -->
+        <div class="mb-3">
+            <label for="id_active" class="form-label">فعال</label>
+            <input type="checkbox" name="active" class="form-check-input" id="id_active" {% if object.active %}checked{% endif %}>
+        </div>
+
+        <!-- Address -->
+        <div class="mb-3">
+            <label for="id_address" class="form-label">آدرس</label>
+            <textarea name="address" class="form-control" id="id_address" rows="3">{{ object.address }}</textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">ذخیره</button>
+        <a href="{% url 'website:product-list' %}" class="btn btn-secondary">لغو</a>
+    </form>
+</div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+

@@ -1,0 +1,241 @@
+{#{% extends "base.html" %}#}
+{#{% load static %}#}
+{#{% load i18n %}#}
+{##}
+{#{% block content %}#}
+{#    <main class="main">#}
+{#        <div class="page-header breadcrumb-wrap">#}
+{#            <div class="container">#}
+{#                <div class="breadcrumb">#}
+{#                    <a href="index.html" rel="nofollow">خانه</a>#}
+{#                    <span></span> صفحات#}
+{#                    <span></span> ثبت نام / ورود#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <section class="pt-150 pb-150">#}
+{#            <div class="container">#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-10 m-auto">#}
+{#                        <div class="row">#}
+{#                            <div class="col-lg-5">#}
+{#                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">#}
+{#                                    <div class="padding_eight_all bg-white">#}
+{#                                        <div class="heading_s1">#}
+{#                                            <ul>#}
+{#                                                <li>#}
+{#                                                    {% if request.user.is_authenticated %}#}
+{##}
+{#                                                        <li><a href="#">{{ request.user.email }}</a></li>#}
+{#                                                    {% endif %}#}
+{##}
+{#                                                </li>#}
+{#                                            </ul>#}
+{#                                            <h3 class="mb-30">وارد شدن</h3>#}
+{#                                        </div>#}
+{#                                        <form method="POST" action="{% url 'customers:login' %}">#}
+{#                                            {% csrf_token %}#}
+{#                                            <div class="form-group">#}
+{#                                                {{ form.login.errors }}#}
+{#                                                <input type="text" required="required" name="login"#}
+{#                                                       placeholder="ایمیل یا شماره تلفن همراه">#}
+{#                                                {{ form.login.help_text }}#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                {{ form.password.errors }}#}
+{#                                                <input required="required" type="password" name="password"#}
+{#                                                       placeholder="کلمه عبور">#}
+{#                                                {{ form.password.help_text }}#}
+{#                                            </div>#}
+{#                                            <input type="hidden" name="next" value="{{ next }}">#}
+{#                                            <div class="form-group">#}
+{#                                                <button type="submit" class="btn btn-fill-out btn-block hover-up ">#}
+{#                                                    وارد شدن#}
+{#                                                </button>#}
+{#                                            </div>#}
+{#                                        </form>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-lg-1"></div>#}
+{#                            <div class="col-lg-6">#}
+{#                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-5">#}
+{#                                    <div class="padding_eight_all bg-white">#}
+{#                                        <div class="heading_s1">#}
+{#                                            <h3 class="mb-30">ایجاد یک حساب</h3>#}
+{#                                        </div>#}
+{#                                        <p class="mb-50 font-sm">#}
+{#                                            تمامی اطلاعات حساب شما هنگام ثبت نام ، یک راز شخصی می ماند و هیچ یک از#}
+{#                                            اطلاعات شما در صفحات گوگل لیست نمیشود و خیال شما جمع باشد .#}
+{#                                        </p>#}
+{#                                        <form method="POST" action="{% url 'customers:register' %}">#}
+{#                                            {% csrf_token %}#}
+{#                                            <div class="form-group">#}
+{#                                                <input type="text" required name="first_name"#}
+{#                                                       placeholder="{% trans 'First Name' %}">#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                <input type="text" required name="last_name"#}
+{#                                                       placeholder="{% trans 'Last Name' %}">#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                <input type="text" required name="phone"#}
+{#                                                       placeholder="{% trans 'Phone' %}">#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                <input type="text" required name="email"#}
+{#                                                       placeholder="{% trans 'Email Address' %}">#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                <input required type="password" name="password1"#}
+{#                                                       placeholder="{% trans 'Password' %}">#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                <input required type="password" name="password2"#}
+{#                                                       placeholder="{% trans 'Confirm Password' %}">#}
+{#                                            </div>#}
+{#                                            <div class="form-group">#}
+{#                                                <button type="submit" class="btn btn-fill-out btn-block hover-up"#}
+{#                                                        name="register">#}
+{#                                                    {% trans 'Submit, Register' %}#}
+{#                                                </button>#}
+{#                                            </div>#}
+{#                                        </form>#}
+{##}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </section>#}
+{#    </main>#}
+{#    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">#}
+{#    <script type="text/javascript"#}
+{#            src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>#}
+{##}
+{#    <script>#}
+{#        jalaliDatepicker.startWatch()#}
+{#    </script>#}
+{#{% endblock %}#}
+{##}
+{##}
+
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html" rel="nofollow">{% trans "Home" %}</a>
+                    <span></span> {% trans "Pages" %}
+                    <span></span> {% trans "Register / Login" %}
+                </div>
+            </div>
+        </div>
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                            <ul>
+                                                <li>
+                                                    {% if request.user.is_authenticated %}
+                                                        <li><a href="#">{{ request.user.email }}</a></li>
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                            <h3 class="mb-30">{% trans "Login" %}</h3>
+                                        </div>
+                                        <form method="POST" action="{% url 'customers:login' %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                {{ form.login.errors }}
+                                                <input type="text" required="required" name="login"
+                                                       placeholder="{% trans 'Email or Mobile Number' %}">
+                                                {{ form.login.help_text }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.password.errors }}
+                                                <input required="required" type="password" name="password"
+                                                       placeholder="{% trans 'Password' %}">
+                                                {{ form.password.help_text }}
+                                            </div>
+                                            <input type="hidden" name="next" value="{{ next }}">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-fill-out btn-block hover-up ">
+                                                    {% trans "Login" %}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-6">
+                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                            <h3 class="mb-30">{% trans "Create an Account" %}</h3>
+                                        </div>
+                                        <p class="mb-50 font-sm">
+                                            {% trans "All account information will remain private after registration. Your data will not be listed on Google, so rest assured." %}
+                                        </p>
+                                        <form method="POST" action="{% url 'customers:register' %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <input type="text" required name="first_name"
+                                                       placeholder="{% trans 'First Name' %}">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" required name="last_name"
+                                                       placeholder="{% trans 'Last Name' %}">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" required name="phone"
+                                                       placeholder="{% trans 'Phone' %}">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" required name="email"
+                                                       placeholder="{% trans 'Email Address' %}">
+                                            </div>
+                                            <div class="form-group">
+                                                <input required type="password" name="password1"
+                                                       placeholder="{% trans 'Password' %}">
+                                            </div>
+                                            <div class="form-group">
+                                                <input required type="password" name="password2"
+                                                       placeholder="{% trans 'Confirm Password' %}">
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-fill-out btn-block hover-up"
+                                                        name="register">
+                                                    {% trans "Submit, Register" %}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
+    <script type="text/javascript"
+            src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+
+    <script>
+        jalaliDatepicker.startWatch()
+    </script>
+{% endblock %}

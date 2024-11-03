@@ -1,0 +1,696 @@
+﻿{% extends "base.html" %}
+{% load static %}
+ {% load i18n %}
+{% block content %}
+    <body>
+    <main class="main">
+{#        <section class="product-tabs pt-25 pb-20 wow fadeIn animated">#}
+{#            <div class="container">#}
+                {#            {% for res in results.shops_result %}#}
+                {#                <h1>{{ res }}</h1>#}
+                {#            {% endfor %}#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-3">#}
+{#                        <div class="widget-category mb-30">#}
+{#                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">دسته بندی</h5>#}
+{#                            <ul class="categories">#}
+{#                                {% for category in categories %}#}
+{#                                    {% if not category.parents %}#}
+{#                                        <li class="dropdown">#}
+{#                                            <a href="{% url 'dashboard:category-detail' category.id %}">{{ category.name }}</a>#}
+{##}
+{#                                            {% if category.parent_categories.exists %}#}
+{#                                                <ul class="subcategories">#}
+{#                                                    {% for subcategory in category.parent_categories.all %}#}
+{#                                                        <li>#}
+{#                                                            <a href="{% url 'dashboard:category-detail' subcategory.id %}">{{ subcategory.name }}</a>#}
+{#                                                        </li>#}
+{#                                                    {% endfor %}#}
+{#                                                </ul>#}
+{#                                            {% endif %}#}
+{#                                        </li>#}
+{#                                    {% endif %}#}
+{#                                {% endfor %}#}
+{#                            </ul>#}
+{##}
+{#                        </div>#}
+{#                        <div class="widget-category mb-30">#}
+{#                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">مرتب سازی بر اساس</h5>#}
+{#                            <ul class="categories">#}
+{#                                <li><a href="{% url 'website:best' %}"> بیشترین امتیاز </a></li>#}
+{#                                <li><a href="{% url 'website:most_selling' %}"> پرفروش ترین </a></li>#}
+{#                                <li><a href="{% url 'website:expensive_product' %}"> گرانترین </a></li>#}
+{#                                <li><a href="{% url 'website:cheap_product' %}"> ارزانترین </a></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-lg-9">#}
+{#                        <div class="tab-content wow fadeIn animated" id="myTabContent">#}
+{#                            <div class="tab-pane fade show active" id="tab-one" role="tabpanel"#}
+{#                                 aria-labelledby="tab-one">#}
+{#                                <div class="row product-grid-4">#}
+{#                                    {% if obj.shops_result and obj.products_result %}#}
+{#                                        {% for res in obj.products_result %}#}
+{#                                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">#}
+{#                                                <div class="product-cart-wrap mb-30">#}
+{#                                                    <div class="product-img-action-wrap">#}
+{#                                                        <div class="product-img product-img-zoom">#}
+{#                                                            <a href="{% url 'website:shop-product-detail' res.pk %}">#}
+{#                                                                <img class="default-img" style="width: 100%;#}
+{#                                                                                            height: 200px;#}
+{#                                                                                            max-width: 250px;#}
+{#                                                                                            max-height: 250px;#}
+{#                                                                                            object-fit: cover; "#}
+{#                                                                     src="{{ res.product.get_image_url }}"#}
+{#                                                                     alt="">#}
+{#                                                            </a>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                    <div class="product-content-wrap">#}
+{#                                                    <div class="product-rate-cover text-end">#}
+{#                    <div class="rating-stars" data-rating="{{ res.average_rating }}">#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                    </div>#}
+{#                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} امتیاز)</span>#}
+{#                </div>#}
+{#                                                        <span style="color: #8a7406">  {{ res.average_rating }} امتیاز  </span>#}
+{#                                                        <div class="product-category">#}
+{#                                                            <a href="{% url 'dashboard:shop-product-detail' res.pk %}">{{ res.product.category }}</a>#}
+{#                                                        </div>#}
+{#                                                        <h2>#}
+{#                                                            <a href="{% url 'website:shop-product-detail' res.pk %}"#}
+{#                                                               class="grunt-scs"> {{ res.product.name }} </a></h2>#}
+{#                                                        {% if res.discount %}#}
+{#                                                            {% if res.discount_type == "FIXED" %}#}
+{#                                                                <span style="color: red"> تخفیف {{ res.discount }} تومان </span>#}
+{#                                                            {% else %}#}
+{#                                                                <span style="color: red"> تخفیف {{ res.discount }} درصد </span>#}
+{#                                                            {% endif %}#}
+{#                                                        {% else %}#}
+{#                                                            <br>#}
+{#                                                        {% endif %}#}
+{#                                                        <div class="product-price">#}
+{#                                                            {% if res.discount %}#}
+{#                                                                <span>{{ res.get_discounted_price }} تومان</span>#}
+{#                                                                <span class="old-price">{{ res.price }} تومان</span>#}
+{#                                                            {% else %}#}
+{#                                                                <span>{{ res.price }} تومان</span>#}
+{#                                                            {% endif %}#}
+{#                                                        </div>#}
+{#                                                        <div class="product-action-1 show">#}
+{#                                                            <a aria-label="سبدخرید"#}
+{#                                                               class="action-btn hover-up add-to-cart"#}
+{#                                                               data-product-id="{{ res.id }}">#}
+{#                                                                <i class="fi-rs-shopping-bag-add"></i>#}
+{#                                                            </a>#}
+{#                                                        </div>#}
+{##}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+{#                                        {% for res in obj.shops_result %}#}
+{#                                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">#}
+{#                                                <div class="product-cart-wrap mb-30">#}
+{#                                                    <div class="product-img-action-wrap">#}
+{#                                                        <div class="product-img product-img-zoom">#}
+{#                                                            <a href="{% url 'website:shop_detail' res.pk %}">#}
+{#                                                                <img class="default-img" style="width: 100%;#}
+{#                                                                                            height: 200px;#}
+{#                                                                                            max-width: 250px;#}
+{#                                                                                            max-height: 250px;#}
+{#                                                                                            object-fit: cover; "#}
+{#                                                                     src="{% static 'assets/imgs/default.png' %}"#}
+{#                                                                     alt="">#}
+{#                                                            </a>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                    <div class="product-content-wrap">#}
+{#                                                        <div class="product-rate-cover text-end">#}
+{#                    <div class="rating-stars" data-rating="{{ res.average_rating }}">#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                    </div>#}
+{#                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} امتیاز)</span>#}
+{#                </div>#}
+{#                                                        <span style="color: #8a7406">  {{ res.average_rating }} امتیاز  </span>#}
+{#                                                        <h2><a href="{% url 'website:shop_detail' res.pk %}">#}
+{#                                                            {{ res.name }}#}
+{#                                                        </a></h2>#}
+{#                                                        <div class="product-price">#}
+{##}
+{#                                                            <h6 style="color: rgba(255,0,0,0.59)">{{ res.address }}</h6>#}
+{##}
+{#                                                        </div>#}
+{#                                                        <br>#}
+{#                                                        <div class="product-price">#}
+{#                                                            <h6 style="color: #1a8e8c">ایجاد شده در تاریخ : </h6>#}
+{#                                                            <h6 style="color: #1a8e8c;text-align: left">  {{ res.persian_create_at }} </h6>#}
+{##}
+{#                                                        </div>#}
+{##}
+{##}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+
+
+<section class="product-tabs pt-25 pb-20 wow fadeIn animated">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="widget-category mb-30">
+                    <h5 class="section-title style-1 mb-30 wow fadeIn animated">{% trans "Categories" %}</h5>
+                    <ul class="categories">
+                        {% for category in categories %}
+                            {% if not category.parents %}
+                                <li class="dropdown">
+                                    <a href="{% url 'dashboard:category-detail' category.id %}">{{ category.name }}</a>
+
+                                    {% if category.parent_categories.exists %}
+                                        <ul class="subcategories">
+                                            {% for subcategory in category.parent_categories.all %}
+                                                <li>
+                                                    <a href="{% url 'dashboard:category-detail' subcategory.id %}">{{ subcategory.name }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="widget-category mb-30">
+                    <h5 class="section-title style-1 mb-30 wow fadeIn animated">{% trans "Sort By" %}</h5>
+                    <ul class="categories">
+                        <li><a href="{% url 'website:best' %}">{% trans "Top Rated" %}</a></li>
+                        <li><a href="{% url 'website:most_selling' %}">{% trans "Best Selling" %}</a></li>
+                        <li><a href="{% url 'website:expensive_product' %}">{% trans "Most Expensive" %}</a></li>
+                        <li><a href="{% url 'website:cheap_product' %}">{% trans "Cheapest" %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="tab-content wow fadeIn animated" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                        <div class="row product-grid-4">
+                            {% if obj.shops_result and obj.products_result %}
+                                {% for res in obj.products_result %}
+                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'website:shop-product-detail' res.pk %}">
+                                                        <img class="default-img" style="width: 100%; height: 200px; max-width: 250px; max-height: 250px; object-fit: cover;" src="{{ res.product.get_image_url }}" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-rate-cover text-end">
+                                                    <div class="rating-stars" data-rating="{{ res.average_rating }}">
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                    </div>
+                                                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} {% trans "Rating" %})</span>
+                                                </div>
+                                                <div class="product-category">
+                                                    <a href="{% url 'dashboard:shop-product-detail' res.pk %}">{{ res.product.category }}</a>
+                                                </div>
+                                                <h2>
+                                                    <a href="{% url 'website:shop-product-detail' res.pk %}" class="grunt-scs">{{ res.product.name }}</a>
+                                                </h2>
+                                                {% if res.discount %}
+                                                    {% if res.discount_type == "FIXED" %}
+                                                        <span style="color: red">{% trans "Discount" %} {{ res.discount }} {% trans "Toman" %}</span>
+                                                    {% else %}
+                                                        <span style="color: red">{% trans "Discount" %} {{ res.discount }} {% trans "Percent" %}</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <br>
+                                                {% endif %}
+                                                <div class="product-price">
+                                                    {% if res.discount %}
+                                                        <span>{{ res.get_discounted_price }} {% trans "Toman" %}</span>
+                                                        <span class="old-price">{{ res.price }} {% trans "Toman" %}</span>
+                                                    {% else %}
+                                                        <span>{{ res.price }} {% trans "Toman" %}</span>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="product-action-1 show">
+                                                    <a aria-label="{% trans "Add to Cart" %}" class="action-btn hover-up add-to-cart" data-product-id="{{ res.id }}">
+                                                        <i class="fi-rs-shopping-bag-add"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                {% for res in obj.shops_result %}
+                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{% url 'website:shop_detail' res.pk %}">
+                                                        <img class="default-img" style="width: 100%; height: 200px; max-width: 250px; max-height: 250px; object-fit: cover;" src="{% static 'assets/imgs/default.png' %}" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-rate-cover text-end">
+                                                    <div class="rating-stars" data-rating="{{ res.average_rating }}">
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                        <i class="fas fa-star star"></i>
+                                                    </div>
+                                                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} {% trans "Rating" %})</span>
+                                                </div>
+                                                <h2>
+                                                    <a href="{% url 'website:shop_detail' res.pk %}">{{ res.name }}</a>
+                                                </h2>
+                                                <div class="product-price">
+                                                    <h6 style="color: rgba(255,0,0,0.59)">{{ res.address }}</h6>
+                                                </div>
+                                                <br>
+                                                <div class="product-price">
+                                                    <h6 style="color: #1a8e8c">{% trans "Created on:" %}</h6>
+                                                    <h6 style="color: #1a8e8c;text-align: left">{{ res.persian_create_at }}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+
+{#                                    {% elif obj.products_result %}#}
+{#                                        {% for res in obj.products_result %}#}
+{#                                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">#}
+{#                                                <div class="product-cart-wrap mb-30">#}
+{#                                                    <div class="product-img-action-wrap">#}
+{#                                                        <div class="product-img product-img-zoom">#}
+{#                                                            <a href="{% url 'website:shop-product-detail' res.pk %}">#}
+{#                                                                <img class="default-img" style="width: 100%;#}
+{#                                                                                            height: 200px;#}
+{#                                                                                            max-width: 250px;#}
+{#                                                                                            max-height: 250px;#}
+{#                                                                                            object-fit: cover; "#}
+{#                                                                     src="{{ res.product.get_image_url }}"#}
+{#                                                                     alt="">#}
+{#                                                            </a>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                    <div class="product-content-wrap">#}
+{#                                                    <div class="product-rate-cover text-end">#}
+{#                    <div class="rating-stars" data-rating="{{ res.average_rating }}">#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                    </div>#}
+{#                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} امتیاز)</span>#}
+{#                </div>#}
+{#                                                        <span style="color: #8a7406">  {{ res.average_rating }} امتیاز  </span>#}
+{#                                                        <div class="product-category">#}
+{#                                                            <a href="{% url 'dashboard:shop-product-detail' res.pk %}">{{ res.product.category }}</a>#}
+{#                                                        </div>#}
+{#                                                        <h2>#}
+{#                                                            <a href="{% url 'website:shop-product-detail' res.pk %}"#}
+{#                                                               class="grunt-scs"> {{ res.product.name }} </a></h2>#}
+{#                                                        {% if res.discount %}#}
+{#                                                            {% if res.discount_type == "FIXED" %}#}
+{#                                                                <span style="color: red"> تخفیف {{ res.discount }} تومان </span>#}
+{#                                                            {% else %}#}
+{#                                                                <span style="color: red"> تخفیف {{ res.discount }} درصد </span>#}
+{#                                                            {% endif %}#}
+{#                                                        {% else %}#}
+{#                                                            <br>#}
+{#                                                        {% endif %}#}
+{#                                                        <div class="product-price">#}
+{#                                                            {% if res.discount %}#}
+{#                                                                <span>{{ res.get_discounted_price }} تومان</span>#}
+{#                                                                <span class="old-price">{{ res.price }} تومان</span>#}
+{#                                                            {% else %}#}
+{#                                                                <span>{{ res.price }} تومان</span>#}
+{#                                                            {% endif %}#}
+{#                                                        </div>#}
+{#                                                        <div class="product-action-1 show">#}
+{#                                                            <a aria-label="سبدخرید"#}
+{#                                                               class="action-btn hover-up add-to-cart"#}
+{#                                                               data-product-id="{{ res.id }}">#}
+{#                                                                <i class="fi-rs-shopping-bag-add"></i>#}
+{#                                                            </a>#}
+{#                                                        </div>#}
+{##}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+{#                                    {% elif obj.shops_result %}#}
+{#                                        {% for res in obj.shops_result %}#}
+{#                                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">#}
+{#                                                <div class="product-cart-wrap mb-30">#}
+{#                                                    <div class="product-img-action-wrap">#}
+{#                                                        <div class="product-img product-img-zoom">#}
+{#                                                            <a href="{% url 'website:shop_detail' res.pk %}">#}
+{#                                                                <img class="default-img" style="width: 100%;#}
+{#                                                                                            height: 200px;#}
+{#                                                                                            max-width: 250px;#}
+{#                                                                                            max-height: 250px;#}
+{#                                                                                            object-fit: cover; "#}
+{#                                                                     src="{% static 'assets/imgs/default.png' %}"#}
+{#                                                                     alt="">#}
+{#                                                            </a>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                    <div class="product-content-wrap">#}
+{#                                                        <div class="product-rate-cover text-end">#}
+{#                    <div class="rating-stars" data-rating="{{ res.average_rating }}">#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                    </div>#}
+{#                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} امتیاز)</span>#}
+{#                </div>#}
+{#                                                        <span style="color: #8a7406">  {{ res.average_rating }} امتیاز  </span>#}
+{##}
+{#                                                        <h2><a href="{% url 'website:shop_detail' res.pk %}">#}
+{#                                                            {{ res.name }}#}
+{#                                                        </a></h2>#}
+{#                                                        <div class="product-price">#}
+{##}
+{#                                                            <h6 style="color: rgba(255,0,0,0.59)">{{ res.address }}</h6>#}
+{##}
+{#                                                        </div>#}
+{#                                                        <br>#}
+{#                                                        <div class="product-price">#}
+{#                                                            <h6 style="color: #1a8e8c">ایجاد شده در تاریخ : </h6>#}
+{#                                                            <h6 style="color: #1a8e8c;text-align: left">  {{ res.persian_create_at }} </h6>#}
+{##}
+{#                                                        </div>#}
+{##}
+{##}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+{##}
+{#                                    {% endif %}#}
+{#                                    {% for shop_product in shop_products %}#}
+{#                                        <div class="col-lg-4 col-md-4 col-12 col-sm-6">#}
+{#                                            <div class="product-cart-wrap mb-30">#}
+{#                                                <div class="product-img-action-wrap">#}
+{#                                                    <div class="product-img product-img-zoom">#}
+{#                                                        <a href="{% url 'website:shop-product-detail' shop_product.pk %}">#}
+{#                                                            <img class="default-img" style="width: 100%;#}
+{#                                                                                            height: 200px;#}
+{#                                                                                            max-width: 250px;#}
+{#                                                                                            max-height: 250px;#}
+{#                                                                                            object-fit: cover; "#}
+{#                                                                 src="{{ shop_product.product.get_image_url }}"#}
+{#                                                                 alt="">#}
+{#                                                        </a>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                                <div class="product-content-wrap">#}
+{#                                                    <div class="product-rate-cover text-end">#}
+{#                    <div class="rating-stars" data-rating="{{ shop_product.average_rating }}">#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                        <i class="fas fa-star star"></i>#}
+{#                    </div>#}
+{#                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ shop_product.average_rating }} امتیاز)</span>#}
+{#                </div>#}
+{##}
+                                                    {#                                                <span style="color: #8a7406">  {{ shop_product.average_rating }} امتیاز  </span>#}
+{#                                                    <div class="product-category">#}
+{#                                                        <a href="{% url 'dashboard:shop-product-detail' shop_product.id %}">{{ shop_product.product.category }}</a>#}
+{#                                                    </div>#}
+{#                                                    <h2>#}
+{#                                                        <a href="{% url 'website:shop-product-detail' shop_product.pk %}"#}
+{#                                                           class="grunt-scs"> {{ shop_product.product.name }} </a></h2>#}
+{#                                                    {% if shop_product.discount %}#}
+{#                                                        {% if shop_product.discount_type == "FIXED" %}#}
+{#                                                            <span style="color: red"> تخفیف {{ shop_product.discount }} تومان </span>#}
+{#                                                        {% else %}#}
+{#                                                            <span style="color: red"> تخفیف {{ shop_product.discount }} درصد </span>#}
+{#                                                        {% endif %}#}
+{#                                                    {% else %}#}
+{#                                                        <br>#}
+{#                                                    {% endif %}#}
+{#                                                    <div class="product-price">#}
+{#                                                        {% if shop_product.discount %}#}
+{#                                                            <span>{{ shop_product.get_discounted_price }} تومان</span>#}
+{#                                                            <span class="old-price">{{ shop_product.price }} تومان</span>#}
+{#                                                        {% else %}#}
+{#                                                            <span>{{ shop_product.price }} تومان</span>#}
+{#                                                        {% endif %}#}
+{#                                                    </div>#}
+{#                                                    <div class="product-action-1 show">#}
+{#                                                        <a aria-label="سبدخرید" class="action-btn hover-up add-to-cart"#}
+{#                                                           data-product-id="{{ shop_product.id }}">#}
+{#                                                            <i class="fi-rs-shopping-bag-add"></i>#}
+{#                                                        </a>#}
+{#                                                    </div>#}
+                                                    {#                                                    <div class="product-action-1 show">#}
+                                                    {#                                                        <a aria-label="سبدخرید" class="action-btn hover-up"#}
+                                                    {#                                                           href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>#}
+                                                    {#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endfor %}#}
+
+
+{% elif obj.products_result %}
+    {% for res in obj.products_result %}
+        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                    <div class="product-img product-img-zoom">
+                        <a href="{% url 'website:shop-product-detail' res.pk %}">
+                            <img class="default-img" style="width: 100%; height: 200px; max-width: 250px; max-height: 250px; object-fit: cover;" src="{{ res.product.get_image_url }}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="product-content-wrap">
+                    <div class="product-rate-cover text-end">
+                        <div class="rating-stars" data-rating="{{ res.average_rating }}">
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                        </div>
+                        <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} {% trans "Rating" %})</span>
+                    </div>
+                    <div class="product-category">
+                        <a href="{% url 'dashboard:shop-product-detail' res.pk %}">{{ res.product.category }}</a>
+                    </div>
+                    <h2>
+                        <a href="{% url 'website:shop-product-detail' res.pk %}" class="grunt-scs"> {{ res.product.name }} </a>
+                    </h2>
+                    {% if res.discount %}
+                        {% if res.discount_type == "FIXED" %}
+                            <span style="color: red"> {% trans "Discount" %} {{ res.discount }} {% trans "Toman" %} </span>
+                        {% else %}
+                            <span style="color: red"> {% trans "Discount" %} {{ res.discount }} {% trans "Percent" %} </span>
+                        {% endif %}
+                    {% else %}
+                        <br>
+                    {% endif %}
+                    <div class="product-price">
+                        {% if res.discount %}
+                            <span>{{ res.get_discounted_price }} {% trans "Toman" %}</span>
+                            <span class="old-price">{{ res.price }} {% trans "Toman" %}</span>
+                        {% else %}
+                            <span>{{ res.price }} {% trans "Toman" %}</span>
+                        {% endif %}
+                    </div>
+                    <div class="product-action-1 show">
+                        <a aria-label="{% trans 'Add to Cart' %}" class="action-btn hover-up add-to-cart" data-product-id="{{ res.id }}">
+                            <i class="fi-rs-shopping-bag-add"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% elif obj.shops_result %}
+    {% for res in obj.shops_result %}
+        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                    <div class="product-img product-img-zoom">
+                        <a href="{% url 'website:shop_detail' res.pk %}">
+                            <img class="default-img" style="width: 100%; height: 200px; max-width: 250px; max-height: 250px; object-fit: cover;" src="{% static 'assets/imgs/default.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="product-content-wrap">
+                    <div class="product-rate-cover text-end">
+                        <div class="rating-stars" data-rating="{{ res.average_rating }}">
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                        </div>
+                        <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ res.average_rating }} {% trans "Rating" %})</span>
+                    </div>
+                    <h2>
+                        <a href="{% url 'website:shop_detail' res.pk %}">{{ res.name }}</a>
+                    </h2>
+                    <div class="product-price">
+                        <h6 style="color: rgba(255,0,0,0.59)">{{ res.address }}</h6>
+                    </div>
+                    <br>
+                    <div class="product-price">
+                        <h6 style="color: #1a8e8c">{% trans "Created on Date:" %}</h6>
+                        <h6 style="color: #1a8e8c; text-align: left">{{ res.persian_create_at }}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+{% for shop_product in shop_products %}
+    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+        <div class="product-cart-wrap mb-30">
+            <div class="product-img-action-wrap">
+                <div class="product-img product-img-zoom">
+                    <a href="{% url 'website:shop-product-detail' shop_product.pk %}">
+                        <img class="default-img" style="width: 100%; height: 200px; max-width: 250px; max-height: 250px; object-fit: cover;" src="{{ shop_product.product.get_image_url }}" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="product-content-wrap">
+                <div class="product-rate-cover text-end">
+                    <div class="rating-stars" data-rating="{{ shop_product.average_rating }}">
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                    </div>
+                    <span class="font-small ml-5 text-muted" style="color: #8a7406">({{ shop_product.average_rating }} {% trans "Rating" %})</span>
+                </div>
+                <div class="product-category">
+                    <a href="{% url 'dashboard:shop-product-detail' shop_product.id %}">{{ shop_product.product.category }}</a>
+                </div>
+                <h2>
+                    <a href="{% url 'website:shop-product-detail' shop_product.pk %}" class="grunt-scs">{{ shop_product.product.name }}</a>
+                </h2>
+                {% if shop_product.discount %}
+                    {% if shop_product.discount_type == "FIXED" %}
+                        <span style="color: red">{% trans "Discount" %} {{ shop_product.discount }} {% trans "Toman" %}</span>
+                    {% else %}
+                        <span style="color: red">{% trans "Discount" %} {{ shop_product.discount }} {% trans "Percent" %}</span>
+                    {% endif %}
+                {% else %}
+                    <br>
+                {% endif %}
+                <div class="product-price">
+                    {% if shop_product.discount %}
+                        <span>{{ shop_product.get_discounted_price }} {% trans "Toman" %}</span>
+                        <span class="old-price">{{ shop_product.price }} {% trans "Toman" %}</span>
+                    {% else %}
+                        <span>{{ shop_product.price }} {% trans "Toman" %}</span>
+                    {% endif %}
+                </div>
+                <div class="product-action-1 show">
+                    <a aria-label="{% trans 'Add to Cart' %}" class="action-btn hover-up add-to-cart" data-product-id="{{ shop_product.id }}">
+                        <i class="fi-rs-shopping-bag-add"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .star {
+    font-size: 15px;
+}
+
+.gold-star {
+    color: gold;
+}
+
+.far {
+    color: lightgrey;
+}
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const ratingElements = document.querySelectorAll(".rating-stars");
+
+    ratingElements.forEach(function (ratingElement) {
+        const averageRating = parseFloat(ratingElement.getAttribute("data-rating"));
+        const stars = ratingElement.querySelectorAll('.star');
+
+        stars.forEach((star, index) => {
+            if (averageRating >= index + 1) {
+                star.classList.add('fas', 'gold-star');
+                star.classList.remove('far');
+            } else {
+                // Unfilled star if rating is less
+                star.classList.add('far');
+                star.classList.remove('fas', 'gold-star');
+            }
+        });
+    });
+});
+
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdowns = document.querySelectorAll('.dropdown');
+
+            dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener('mouseover', function () {
+                    this.querySelector('.subcategories').style.display = 'block';
+                });
+
+                dropdown.addEventListener('mouseout', function () {
+                    this.querySelector('.subcategories').style.display = 'none';
+                });
+            });
+        });
+    </script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    </body>
+{% endblock %}

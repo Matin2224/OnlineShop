@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Shop List</h2>
+<ul>
+    {% for shop in shops %}
+        <li><a href="{% url 'dashboard:shop-detail' shop.id %}">{{ shop.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

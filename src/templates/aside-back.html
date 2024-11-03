@@ -1,0 +1,288 @@
+{% load static %}
+{% if user.is_authenticated %}
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="{% static 'assets-back/imgs/theme/logo.svg' %}" class="logo" alt="داشبورد اورا">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i>
+                </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="index.html"> <i class="icon material-icons md-home"></i>
+                        <span class="text">داشبورد</span>
+                    </a>
+                </li>
+
+    <li class="menu-item has-submenu">
+    <a class="menu-link" href="#">
+        <i class="icon material-icons md-shopping_bag"></i>
+        <span class="text">محصولات</span>
+    </a>
+    <div class="submenu">
+        <style>
+            .product-item {
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .product-name {
+                display: block;
+                font-weight: bold;
+            }
+
+            .product-actions {
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+            }
+
+            .btn {
+                text-decoration: none;
+                padding: 5px 10px;
+                color: white;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .btn-details {
+                background-color: #007bff;
+            }
+
+            .btn-edit {
+                background-color: #ffc107;
+            }
+
+            .btn-delete {
+                background-color: #dc3545;
+            }
+
+            .btn-create {
+                background-color: #28a745;
+                display: inline-block;
+                margin-top: 10px;
+            }
+
+            .btn-delete {
+                color: white;
+            }
+
+            .product-actions form {
+                display: inline;
+            }
+        </style>
+
+        {% for product in shop_products %}
+            <div class="product-item">
+                <span class="product-name">{{ product.product.name }}</span>
+                <div class="product-actions">
+                    <!-- Details Form (GET request) -->
+                    <form action="{% url 'website:product-detail' product.pk %}" method="get" style="display:inline;">
+                        <button type="submit" class="btn btn-details">جزئیات</button>
+                    </form>
+
+                    <!-- Update Form (POST request) -->
+                    {% if perms.vendors.is_manager %}
+                        <form action="{% url 'website:product-update' product.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-edit">ویرایش</button>
+                        </form>
+                    {% endif %}
+
+                    <!-- Delete Form (POST request) -->
+                    {% if perms.vendors.is_manager %}
+                        <form action="{% url 'website:product-delete' product.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-delete">حذف</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <span>محصولی موجود نیست</span>
+        {% endfor %}
+        {% if perms.vendors.is_manager %}
+            <a href="{% url 'website:product-create' %}" >اضافه کردن محصول</a>
+        {% endif %}
+    </div>
+</li>
+
+                </li>
+                {% if perms.vendors.is_manager %}
+                <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#"><i class="icon material-icons md-store"></i>
+
+                            <span class="text">سفارش ها</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="{% url 'vendors:orders' %}">لیست سفارش</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#"><i class="icon material-icons md-store"></i>
+
+                            <span class="text">سفارش ها  </span>
+                        </a>
+                        <div class="submenu">
+                            <a href="{% url 'vendors:orders_s' %}">لیست سفارش</a>
+                        </div>
+                    </li>
+                    {% endif %}
+{#            <li class="menu-item has-submenu">#}
+{#    <a class="menu-link" href="#"><i class="icon material-icons md-store"></i>#}
+{#        <span class="text">سفارش ها</span>#}
+{#    </a>#}
+{#    <div class="submenu">#}
+{#        {% if is_manager %}#}
+{#            <a href="{% url 'vendors:orders' %}">لیست سفارش (مدیر)</a>#}
+{#        {% else %}#}
+{#            <a href="{% url 'vendors:orders' %}">لیست سفارش (ناظر)</a>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#</li>#}
+
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-person"></i>
+                        <span class="text">کارمندان</span>
+                    </a>
+                    <div class="submenu">
+        <style>
+            .product-item {
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .product-name {
+                display: block;
+                font-weight: bold;
+            }
+
+            .product-actions {
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+            }
+
+            .btn {
+                text-decoration: none;
+                padding: 5px 10px;
+                color: white;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .btn-details {
+                background-color: #007bff;
+            }
+
+            .btn-edit {
+                background-color: #ffc107;
+            }
+
+            .btn-delete {
+                background-color: #dc3545;
+            }
+
+            .btn-create {
+                background-color: #28a745;
+                display: inline-block;
+                margin-top: 10px;
+            }
+
+            .btn-delete {
+                color: white;
+            }
+
+            .product-actions form {
+                display: inline;
+            }
+        </style>
+{% if perms.vendors.is_owner %}
+        {% for staff in staffs %}
+            <div class="product-item">
+
+                <span class="product-name">{{ staff }}</span>
+                <div class="product-actions">
+
+                    <form action="{% url 'website:staff-detail' staff.pk %}" method="get" style="display:inline;">
+                        <button type="submit" class="btn btn-details">جزئیات</button>
+                    </form>
+
+                    <!-- Update Form (POST request) -->
+
+                        <form action="{% url 'website:staff-update' staff.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-edit">ویرایش</button>
+                        </form>
+
+
+
+                        <form action="{% url 'website:staff-delete' staff.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-delete">حذف</button>
+                        </form>
+
+                </div>
+            </div>
+        {% empty %}
+            <span>کارمند موجود نیست</span>
+        {% endfor %}
+        {% endif %}
+    </div>
+                </li>
+
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"><i class="icon material-icons md-store"></i>
+
+                        <span class="text">فروشگاه</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="{% url 'website:shop-update' user.staff.shop.pk  %}">نمایش و ویرایش جزییات</a>
+                    </div>
+                </li>
+                {% if perms.vendors.is_manager %}
+                <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#"><i class="icon material-icons md-store"></i>
+
+                            <span class="text">بررسی نظرات ارسالی</span>
+                        </a>
+                        <div class="submenu">
+{#                            {% for comment in comments %}#}
+{#                                <span class="product-name">{{ comment }}</span>#}
+{#                            {% endfor %}#}
+                            <a href="{% url 'vendors:comment' %}">نمایش و ویرایش جزییات</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#"><i class="icon material-icons md-store"></i>
+
+                            <span class="text">بررسی نظرات ارسالی</span>
+                        </a>
+                        <div class="submenu">
+{#                            {% for comment in comments %}#}
+{#                                <span class="product-name">{{ comment }}</span>#}
+{#                            {% endfor %}#}
+                            <a href="{% url 'vendors:comment_s' %}">نمایش و ویرایش جزییات</a>
+                        </div>
+                    </li>
+                    {% endif %}
+            </ul>
+        </nav>
+    </aside>
+{% endif %}

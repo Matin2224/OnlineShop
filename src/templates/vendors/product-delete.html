@@ -1,0 +1,25 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-wrap">
+        <section class="content-main">
+            <div class="container mt-4">
+    <h2>حذف محصول</h2>
+    <br>
+<br><br>
+<br>
+    <p>آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟</p>
+    <br>
+<br>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">بله، حذف کن</button>
+        <a href="{% url 'vendors:product-list' %}" class="btn btn-secondary">لغو</a>
+    </form>
+<br>
+<br>
+</div>
+        </section>
+    </main>
+{% endblock %}
+

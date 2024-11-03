@@ -1,0 +1,55 @@
+{% extends "base-back.html" %}
+{% load static %}
+{% block content %}
+    <main class="main-wrap">
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">دسته بندی ها</h2>
+                    <p>یک دسته را اضافه کنید</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <form method="POST" action="{% url 'website:category-create' %}">
+                                {% csrf_token %}
+                                <div class="mb-4">
+                                    <label for="id_name" class="form-label">{{ form.name.label }}</label>
+                                    <input type="text" name="name" placeholder="اینجا بنویسید" class="form-control"
+                                           id="id_name">
+                                    <div class="text-danger">{{ form.name.errors }}</div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="id_slug" class="form-label">{{ form.slug.label }}</label>
+                                    <input type="text" name="slug" placeholder="اینجا بنویسید" class="form-control"
+                                           id="id_slug">
+                                    <div class="text-danger">{{ form.slug.errors }}</div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="id_parents" class="form-label">{{ form.parents.label }}</label> <select
+                                        name="parents" class="form-select" id="id_parents">
+                                    {% for choice in form.parents.field.choices %}
+                                        <option value="{{ choice.0 }}"
+                                                {% if choice.0 == form.parents.value %}selected{% endif %}>{{ choice.1 }}</option>        {% endfor %}
+                                </select>
+                                    <div class="text-danger">{{ form.parents.errors }}</div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="id_description" class="form-label">{{ form.description.label }}</label>
+                                    <textarea name="description" placeholder="اینجا را تایپ کنید" class="form-control"
+                                              id="id_description"></textarea>
+                                    <div class="text-danger">{{ form.description.errors }}</div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">دسته بندی ایجاد کنید</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> <!-- .row // -->
+                </div> <!-- card body .// -->
+            </div> <!-- card .// -->
+        </section>
+    </main>
+{% endblock %}
